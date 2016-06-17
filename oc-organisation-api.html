@@ -6,6 +6,7 @@
   <template>
     <iron-ajax id="getOrganisationTypes"></iron-ajax>
     <iron-ajax id="getOrganisationIndustries"></iron-ajax>
+    <iron-ajax id="createOrganisation"></iron-ajax>
   </template>
 
   <script>(function(){
@@ -31,6 +32,19 @@
       getOrganisationIndustries: function() {
         this.$.getOrganisationIndustries.url = this._url('industry');
         return this._generateRequest(this.$.getOrganisationIndustries);
+      },
+
+      /**
+       * Create a new organisation
+       *
+       * @return {Promise}
+       */
+      createOrganisation: function(newOrganisation) {
+        this.$.createOrganisation.url = this._url('organisations');
+        this.$.createOrganisation.method = "POST";
+        this.$.createOrganisation.contentType = "application/json";
+        this.$.createOrganisation.body = newOrganisation;
+        return this._generateRequest(this.$.createOrganisation);
       }
     });
   })();
