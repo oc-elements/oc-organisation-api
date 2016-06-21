@@ -10,6 +10,7 @@
     <iron-ajax id="getOrganisationIndustries"></iron-ajax>
     <iron-ajax id="updateOrganisationDetails"></iron-ajax>
     <iron-ajax id="updateOrganisationTypesIndustries"></iron-ajax>
+    <iron-ajax id="getOrganisationAccessToken"></iron-ajax>
   </template>
 
   <script>(function(){
@@ -85,6 +86,16 @@
         this.$.updateOrganisationTypesIndustries.contentType = "application/json";
         this.$.updateOrganisationTypesIndustries.body = selectedTypesAndIndustries;
         return this._generateRequest(this.$.updateOrganisationTypesIndustries);
+      },
+
+      /**
+       * Get the access token for an organisation.
+       * @param {Number} organisationId
+       * @returns {Promise}
+       */
+      getOrganisationAccessToken: function(organisationId) {
+        this.$.getOrganisationAccessToken.url = this._url('organisations/' + organisationId + '/accesstoken');
+        return this._generateRequest(this.$.getOrganisationAccessToken);
       }
     });
   })();
