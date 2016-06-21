@@ -4,15 +4,42 @@
 
 <dom-module id="oc-organisation-api">
   <template>
+    <iron-ajax id="createOrganisation"></iron-ajax>
+    <iron-ajax id="getOrganisation"></iron-ajax>
     <iron-ajax id="getOrganisationTypes"></iron-ajax>
     <iron-ajax id="getOrganisationIndustries"></iron-ajax>
-    <iron-ajax id="createOrganisation"></iron-ajax>
+    <iron-ajax id="updateOrganisationDetails"></iron-ajax>
+    <iron-ajax id="updateOrganisationTypesIndustries"></iron-ajax>
   </template>
 
   <script>(function(){
     Polymer({
       is: 'oc-organisation-api',
       behaviors: [OC.Behaviours.ApiProvider],
+
+      /**
+       * Create a new organisation
+       *
+       * @return {Promise}
+       */
+      createOrganisation: function(newOrganisation) {
+        this.$.createOrganisation.url = this._url('organisations');
+        this.$.createOrganisation.method = "POST";
+        this.$.createOrganisation.contentType = "application/json";
+        this.$.createOrganisation.body = newOrganisation;
+        return this._generateRequest(this.$.createOrganisation);
+      },
+
+      /**
+       * Retrieve an organisation
+       *
+       * @param {Long} organisationId
+       * @return {Promise}
+       */
+      getOrganisation: function(organisationId) {
+        this.$.getOrganisation.url = this._url('organisations/' + organisationId);
+        return this._generateRequest(this.$.getOrganisation);
+      },
 
       /**
        * Retrieve all Ordercloud supported organisation types
@@ -35,16 +62,29 @@
       },
 
       /**
-       * Create a new organisation
+       * Update an organisation's details
        *
        * @return {Promise}
        */
-      createOrganisation: function(newOrganisation) {
-        this.$.createOrganisation.url = this._url('organisations');
-        this.$.createOrganisation.method = "POST";
-        this.$.createOrganisation.contentType = "application/json";
-        this.$.createOrganisation.body = newOrganisation;
-        return this._generateRequest(this.$.createOrganisation);
+      updateOrganisationDetails: function(organisationId, organisationDetails) {
+        this.$.updateOrganisationDetails.url = this._url('organisations/' + organisationId + '/detail');
+        this.$.updateOrganisationDetails.method = "PUT";
+        this.$.updateOrganisationDetails.contentType = "application/json";
+        this.$.updateOrganisationDetails.body = organisationDetails;
+        return this._generateRequest(this.$.updateOrganisationDetails);
+      },
+
+      /**
+       * Update an organisation's declared types and industries
+       *
+       * @return {Promise}
+       */
+      updateOrganisationTypesIndustries: function(organisationId, selectedTypesAndIndustries) {
+        this.$.updateOrganisationTypesIndustries.url = this._url('organisations/' + organisationId + '/setup/typeindustry');
+        this.$.updateOrganisationTypesIndustries.method = "PUT";
+        this.$.updateOrganisationTypesIndustries.contentType = "application/json";
+        this.$.updateOrganisationTypesIndustries.body = selectedTypesAndIndustries;
+        return this._generateRequest(this.$.updateOrganisationTypesIndustries);
       }
     });
   })();
