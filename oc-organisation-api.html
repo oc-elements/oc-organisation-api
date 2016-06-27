@@ -11,6 +11,9 @@
     <iron-ajax id="updateOrganisationDetails"></iron-ajax>
     <iron-ajax id="updateOrganisationTypesIndustries"></iron-ajax>
     <iron-ajax id="getOrganisationAccessToken"></iron-ajax>
+    <iron-ajax id="getOrganisationHours"></iron-ajax>
+    <iron-ajax id="updateOrganisationHours"></iron-ajax>
+
   </template>
 
   <script>(function(){
@@ -96,6 +99,29 @@
       getOrganisationAccessToken: function(organisationId) {
         this.$.getOrganisationAccessToken.url = this._url('organisations/' + organisationId + '/accesstoken');
         return this._generateRequest(this.$.getOrganisationAccessToken);
+      },
+
+      /**
+       * Get an organisation's business hours
+       *
+       * @return {Promise}
+       */
+      getOrganisationHours: function(organisationId) {
+        this.$.getOrganisationHours.url = this._url('organisations/' + organisationId + '/hours');
+        return this._generateRequest(this.$.getOrganisationHours);
+      },
+
+      /**
+       * Update an organisation's business hours
+       *
+       * @return {Promise}
+       */
+      updateOrganisationHours: function(organisationId, businessHours) {
+        this.$.updateOrganisationHours.url = this._url('organisations/' + organisationId + '/hours');
+        this.$.updateOrganisationHours.method = "PUT";
+        this.$.updateOrganisationHours.contentType = "application/json";
+        this.$.updateOrganisationHours.body = businessHours;
+        return this._generateRequest(this.$.updateOrganisationHours);
       }
     });
   })();
