@@ -13,6 +13,8 @@
     <iron-ajax id="getOrganisationAccessToken"></iron-ajax>
     <iron-ajax id="getOrganisationHours"></iron-ajax>
     <iron-ajax id="updateOrganisationHours"></iron-ajax>
+    <iron-ajax id="getBankAccountDetails"></iron-ajax>
+    <iron-ajax id="updateBankAccountDetails"></iron-ajax>
 
   </template>
 
@@ -122,7 +124,30 @@
         this.$.updateOrganisationHours.contentType = "application/json";
         this.$.updateOrganisationHours.body = businessHours;
         return this._generateRequest(this.$.updateOrganisationHours);
-      }
+      },
+
+      /**
+       * Get an organisation's bank account details
+       *
+       * @return {Promise}
+       */
+      getBankAccountDetails: function(organisationId) {
+        this.$.getBankAccountDetails.url = this._url('organisations/' + organisationId + '/bankdetail');
+        return this._generateRequest(this.$.getBankAccountDetails);
+      },
+
+      /**
+       * Update an organisation's bank account details
+       *
+       * @return {Promise}
+       */
+      updateBankAccountDetails: function(organisationId, accountDetails) {
+        this.$.updateBankAccountDetails.url = this._url('organisations/' + organisationId + '/bankdetail');
+        this.$.updateBankAccountDetails.method = "PUT";
+        this.$.updateBankAccountDetails.contentType = "application/json";
+        this.$.updateBankAccountDetails.body = accountDetails;
+        return this._generateRequest(this.$.updateBankAccountDetails);
+      },
     });
   })();
   </script>
