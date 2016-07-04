@@ -15,7 +15,8 @@
     <iron-ajax id="updateOrganisationHours"></iron-ajax>
     <iron-ajax id="getBankAccountDetails"></iron-ajax>
     <iron-ajax id="updateBankAccountDetails"></iron-ajax>
-
+    <iron-ajax id="getAddress"></iron-ajax>
+    <iron-ajax id="createAddress"></iron-ajax>
   </template>
 
   <script>(function(){
@@ -147,6 +148,29 @@
         this.$.updateBankAccountDetails.contentType = "application/json";
         this.$.updateBankAccountDetails.body = accountDetails;
         return this._generateRequest(this.$.updateBankAccountDetails);
+      },
+
+      /**
+       * Get an organisation's address and GEO location
+       *
+       * @return {Promise}
+       */
+      getAddress: function(organisationId) {
+        this.$.getAddress.url = this._url('organisations/' + organisationId + '/address');
+        return this._generateRequest(this.$.getAddress);
+      },
+
+      /**
+       * Create an address and GEO location for an organisation
+       *
+       * @return {Promise}
+       */
+      createAddress: function(organisationId, address) {
+        this.$.createAddress.url = this._url('organisations/' + organisationId + '/address');
+        this.$.createAddress.method = "POST";
+        this.$.createAddress.contentType = "application/json";
+        this.$.createAddress.body = address;
+        return this._generateRequest(this.$.createAddress);
       },
     });
   })();
