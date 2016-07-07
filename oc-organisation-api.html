@@ -17,6 +17,11 @@
     <iron-ajax id="updateBankAccountDetails"></iron-ajax>
     <iron-ajax id="getAddress"></iron-ajax>
     <iron-ajax id="createAddress"></iron-ajax>
+    <iron-ajax id="createDeliveryArea"></iron-ajax>
+    <iron-ajax id="getDeliveryAreas"></iron-ajax>
+    <iron-ajax id="updateDeliveryArea"></iron-ajax>
+    <iron-ajax id="deleteDeliveryArea"></iron-ajax>
+
   </template>
 
   <script>(function(){
@@ -171,6 +176,62 @@
         this.$.createAddress.contentType = "application/json";
         this.$.createAddress.body = address;
         return this._generateRequest(this.$.createAddress);
+      },
+
+
+      /**
+       * Create a delivery area
+       *
+       * @return {Promise}
+       */
+      createDeliveryArea: function(organisationId, deliveryArea) {
+        this.$.createDeliveryArea.url = this._url('organisations/delivery/area');
+        this.$.createDeliveryArea.method = "PUT";
+        this.$.createDeliveryArea.contentType = "application/json";
+        this.$.createDeliveryArea.body = {
+          latitude: deliveryArea.latitude,
+          longitude: deliveryArea.longitude,
+          radius: deliveryArea.radius
+        };
+        return this._generateRequest(this.$.createDeliveryArea);
+      },
+
+      /**
+       * Get an organisation's delivery areas
+       *
+       * @return {Promise}
+       */
+      getDeliveryAreas: function(organisationId) {
+        this.$.getDeliveryAreas.url = this._url('organisations/delivery/area');
+        return this._generateRequest(this.$.getDeliveryAreas);
+      },
+
+      /**
+       * Update an organisation's delivery areas
+       *
+       * @return {Promise}
+       */
+      updateDeliveryArea: function(organisationId, deliveryAreaId, deliveryArea) {
+        this.$.updateDeliveryArea.url = this._url('organisations/delivery/area/' + deliveryAreaId);
+        this.$.updateDeliveryArea.method = "PUT";
+        this.$.updateDeliveryArea.contentType = "application/json";
+        this.$.updateDeliveryArea.body = {
+          latitude: deliveryArea.latitude,
+          longitude: deliveryArea.longitude,
+          radius: deliveryArea.radius
+        };
+        return this._generateRequest(this.$.updateDeliveryArea);
+      },
+
+      /**
+       * Delete a delivery area
+       *
+       * @return {Promise}
+       */
+      deleteDeliveryArea: function(organisationId, deliveryAreaId) {
+        this.$.deleteDeliveryArea.url = this._url('organisations/delivery/area/' + deliveryAreaId);
+        this.$.deleteDeliveryArea.method = "DELETE";
+        return this._generateRequest(this.$.deleteDeliveryArea);
       },
     });
   })();
