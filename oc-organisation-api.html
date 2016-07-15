@@ -21,7 +21,8 @@
     <iron-ajax id="getDeliveryAreas"></iron-ajax>
     <iron-ajax id="updateDeliveryArea"></iron-ajax>
     <iron-ajax id="deleteDeliveryArea"></iron-ajax>
-
+    <iron-ajax id="getSettings"></iron-ajax>
+    <iron-ajax id="updateSettings"></iron-ajax>
   </template>
 
   <script>(function(){
@@ -233,6 +234,51 @@
         this.$.deleteDeliveryArea.method = "DELETE";
         return this._generateRequest(this.$.deleteDeliveryArea);
       },
+
+      /**
+       * Get an organisation's settings
+       *
+       * @return {Promise}
+       */
+      getSettings: function(organisationId) {
+        this.$.getSettings.url = this._url('organisations/'+ organisationId +'/settings');
+        return this._generateRequest(this.$.getSettings);
+      },
+
+      /**
+       * Get an organisation's settings
+       *
+       * @param {Number} organisationId
+       * @param { {value:Object, key: {id:Number, name:String}}} settings
+       * @return {Promise}
+       */
+      updateSettings: function(organisationId, settings) {
+        this.$.updateSettings.url = this._url('organisations/'+ organisationId +'/settings/bulk');
+        this.$.updateSettings.method = "PUT";
+        this.$.updateSettings.contentType = "application/json";
+        var body = [];
+        for (var i in settings) {
+          body.push( {
+            id: (settings[i].id != null) ? settings[i].id : null,
+            value: (settings[i].value != null) ? settings[i].value : null,
+            key: {
+              id: settings[i].key.id,
+              name: settings[i].key.name
+            },
+            startDate: settings[i].startDate,
+            endDate: settings[i].endDate,
+            dateCreated: settings[i].dateCreated,
+            lastUpdated: settings[i].lastUpdated,
+            organisation: {
+              id: (settings[i].organisation != null) ? settings[i].organisation.id : organisationId,
+              name: (settings[i].organisation != null) ? settings[i].organisation.name : "Api breaks if there's no value here",
+              code: (settings[i].organisation != null) ? settings[i].organisation.code : "Api breaks if there's no value here"
+            }
+          })
+        }
+        this.$.updateSettings.body = body;
+        return this._generateRequest(this.$.updateSettings);
+      }
     });
   })();
   </script>
