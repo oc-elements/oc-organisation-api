@@ -7,7 +7,6 @@
     <iron-ajax id="createOrganisation"></iron-ajax>
     <iron-ajax id="getOrganisation"></iron-ajax>
     <iron-ajax id="getOrganisationTypes"></iron-ajax>
-    <iron-ajax id="getOrganisationUsers"></iron-ajax>
     <iron-ajax id="getOrganisationIndustries"></iron-ajax>
     <iron-ajax id="updateOrganisationDetails"></iron-ajax>
     <iron-ajax id="updateOrganisationTypesIndustries"></iron-ajax>
@@ -64,16 +63,6 @@
       getOrganisationTypes: function() {
         this.$.getOrganisationTypes.url = this._url('organisations/types');
         return this._generateRequest(this.$.getOrganisationTypes);
-      },
-
-      /**
-       * Retrieve all users for a organisation
-       *
-       * @return {Promise}
-       */
-      getOrganisationUsers: function(organisationId) {
-        this.$.getOrganisationUsers.url = this._url('organisations/'+organisationId+'/users');
-        return this._generateRequest(this.$.getOrganisationUsers);
       },
 
       /**
