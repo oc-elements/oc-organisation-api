@@ -6,6 +6,7 @@
   <template>
     <iron-ajax id="createOrganisation"></iron-ajax>
     <iron-ajax id="getOrganisation"></iron-ajax>
+    <iron-ajax id="getOrganisationByHeader"></iron-ajax>
     <iron-ajax id="getOrganisationTypes"></iron-ajax>
     <iron-ajax id="getOrganisationIndustries"></iron-ajax>
     <iron-ajax id="updateOrganisationDetails"></iron-ajax>
@@ -54,6 +55,17 @@
         this.$.getOrganisation.url = this._url('organisations/' + organisationId);
         return this._generateRequest(this.$.getOrganisation);
       },
+
+      /**
+       * Retrieve an organisation from the authentication header
+       *
+       * @return {Promise}
+       */
+      getOrganisationByHeader: function() {
+        this.$.getOrganisation.url = this._url('organisations/');
+        return this._generateRequest(this.$.getOrganisation);
+      },
+
 
       /**
        * Retrieve all Ordercloud supported organisation types
