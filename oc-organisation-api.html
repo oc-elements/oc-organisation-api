@@ -329,7 +329,7 @@
                     queryUrl += e.name + "=" + e.value + "&";
                 }
             });
-            queryUrl = url.trim("&");
+            queryUrl = queryUrl.trim("&");
 
             this.$.getOrganisationConnections.url = this._url('organisations/' + organisationId +'/connections?' + queryUrl);
             return this._generateRequest(this.$.getOrganisationConnections);
