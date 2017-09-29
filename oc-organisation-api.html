@@ -24,6 +24,7 @@
     <iron-ajax id="deleteDeliveryArea"></iron-ajax>
     <iron-ajax id="getSettings"></iron-ajax>
     <iron-ajax id="updateSettings"></iron-ajax>
+    <iron-ajax id="getOrganisationConnections"></iron-ajax>
 
   </template>
 
@@ -291,7 +292,49 @@
         }
         this.$.updateSettings.body = body;
         return this._generateRequest(this.$.updateSettings);
-      }
+      },
+
+        /**
+         * Retrieve an organisations connections by types
+         *
+         * @param {Number} organisationId
+         * @param {String}type  the code from connection types
+         * @param {Number} radius in meters
+         * @param {String} lat from where to check the radius
+         * @param {String} long from where to check the radius
+         * @param {Number} page number
+         * @param (Number} pagesize number
+         *
+         *
+         * @return {Promise}
+         */
+        getOrganisationConnections: function(organisationId, type, radius, lat ,long , page, pagesize) {
+
+            //Query parameters available
+            var array = [
+                {"type" : type},
+                {"status" :  "CONNECTED"},
+                {"showDisabled" : false},
+                {"radius" : radius},
+                {"lat" : lat},
+                {"long" : long},
+                {"industry" : ""},
+                {"page" : page},
+                {"pagesize" : pagesize}
+                ];
+
+            var queryUrl = "";
+            array.forEach(function(e){
+                if((e.value !== "")&&(e.value !== null)) {
+                    queryUrl += e.name + "=" + e.value + "&";
+                }
+            });
+            queryUrl = url.trim("&");
+
+            this.$.getOrganisationConnections.url = this._url('organisations/' + organisationId +'/connections?' + queryUrl);
+            return this._generateRequest(this.$.getOrganisationConnections);
+        },
+
     });
   })();
   </script>
