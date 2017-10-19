@@ -45,7 +45,7 @@
        * @return {Promise}
        */
       createOrganisation (newOrganisation) {
-        this.$.createOrganisation.url = this._url('organisations');
+        this.$.createOrganisation.url = this._generateUrl('organisations');
         this.$.createOrganisation.method = "POST";
         this.$.createOrganisation.contentType = "application/json";
         this.$.createOrganisation.body = newOrganisation;
@@ -59,7 +59,7 @@
        * @return {Promise}
        */
       getOrganisation (organisationId) {
-        this.$.getOrganisation.url = this._url('organisations/' + organisationId);
+        this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId);
         return this._generateRequest(this.$.getOrganisation);
       }
 
@@ -69,7 +69,7 @@
        * @return {Promise}
        */
       getOrganisationByHeader () {
-        this.$.getOrganisation.url = this._url('organisations/');
+        this.$.getOrganisation.url = this._generateUrl('organisations/');
         return this._generateRequest(this.$.getOrganisation);
       }
 
@@ -80,7 +80,7 @@
        * @return {Promise}
        */
       getOrganisationTypes () {
-        this.$.getOrganisationTypes.url = this._url('organisations/types');
+        this.$.getOrganisationTypes.url = this._generateUrl('organisations/types');
         return this._generateRequest(this.$.getOrganisationTypes);
       }
 
@@ -90,7 +90,7 @@
        * @return {Promise}
        */
       getOrganisationIndustries () {
-        this.$.getOrganisationIndustries.url = this._url('industry');
+        this.$.getOrganisationIndustries.url = this._generateUrl('industry');
         return this._generateRequest(this.$.getOrganisationIndustries);
       }
 
@@ -100,7 +100,7 @@
        * @return {Promise}
        */
       updateOrganisationDetails (organisationId, organisationDetails) {
-        this.$.updateOrganisationDetails.url = this._url('organisations/' + organisationId + '/detail');
+        this.$.updateOrganisationDetails.url = this._generateUrl('organisations/' + organisationId + '/detail');
         this.$.updateOrganisationDetails.method = "PUT";
         this.$.updateOrganisationDetails.contentType = "application/json";
         this.$.updateOrganisationDetails.body = organisationDetails;
@@ -113,7 +113,7 @@
        * @return {Promise}
        */
       updateOrganisationTypesIndustries (organisationId, selectedTypesAndIndustries) {
-        this.$.updateOrganisationTypesIndustries.url = this._url('organisations/' + organisationId + '/setup/typeindustry');
+        this.$.updateOrganisationTypesIndustries.url = this._generateUrl('organisations/' + organisationId + '/setup/typeindustry');
         this.$.updateOrganisationTypesIndustries.method = "PUT";
         this.$.updateOrganisationTypesIndustries.contentType = "application/json";
         this.$.updateOrganisationTypesIndustries.body = selectedTypesAndIndustries;
@@ -126,7 +126,7 @@
        * @returns {Promise}
        */
       getOrganisationAccessToken (organisationId) {
-        this.$.getOrganisationAccessToken.url = this._url('organisations/' + organisationId + '/accesstoken');
+        this.$.getOrganisationAccessToken.url = this._generateUrl('organisations/' + organisationId + '/accesstoken');
         return this._generateRequest(this.$.getOrganisationAccessToken);
       }
 
@@ -136,7 +136,7 @@
        * @return {Promise}
        */
       getOrganisationHours (organisationId) {
-        this.$.getOrganisationHours.url = this._url('organisations/' + organisationId + '/hours');
+        this.$.getOrganisationHours.url = this._generateUrl('organisations/' + organisationId + '/hours');
         return this._generateRequest(this.$.getOrganisationHours);
       }
 
@@ -146,7 +146,7 @@
        * @return {Promise}
        */
       updateOrganisationHours (organisationId, businessHours) {
-        this.$.updateOrganisationHours.url = this._url('organisations/' + organisationId + '/hours');
+        this.$.updateOrganisationHours.url = this._generateUrl('organisations/' + organisationId + '/hours');
         this.$.updateOrganisationHours.method = "PUT";
         this.$.updateOrganisationHours.contentType = "application/json";
         this.$.updateOrganisationHours.body = businessHours;
@@ -159,7 +159,7 @@
        * @return {Promise}
        */
       getBankAccountDetails (organisationId) {
-        this.$.getBankAccountDetails.url = this._url('organisations/' + organisationId + '/bankdetail');
+        this.$.getBankAccountDetails.url = this._generateUrl('organisations/' + organisationId + '/bankdetail');
         return this._generateRequest(this.$.getBankAccountDetails);
       }
 
@@ -169,7 +169,7 @@
        * @return {Promise}
        */
       updateBankAccountDetails (organisationId, accountDetails) {
-        this.$.updateBankAccountDetails.url = this._url('organisations/' + organisationId + '/bankdetail');
+        this.$.updateBankAccountDetails.url = this._generateUrl('organisations/' + organisationId + '/bankdetail');
         this.$.updateBankAccountDetails.method = "PUT";
         this.$.updateBankAccountDetails.contentType = "application/json";
         this.$.updateBankAccountDetails.body = accountDetails;
@@ -182,7 +182,7 @@
        * @return {Promise}
        */
       getAddress (organisationId) {
-        this.$.getAddress.url = this._url('organisations/' + organisationId + '/address');
+        this.$.getAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
         return this._generateRequest(this.$.getAddress);
       }
 
@@ -192,7 +192,7 @@
        * @return {Promise}
        */
       createAddress (organisationId, address) {
-        this.$.createAddress.url = this._url('organisations/' + organisationId + '/address');
+        this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
         this.$.createAddress.method = "POST";
         this.$.createAddress.contentType = "application/json";
         this.$.createAddress.body = address;
@@ -206,7 +206,7 @@
        * @return {Promise}
        */
       createDeliveryArea (organisationId, deliveryArea) {
-        this.$.createDeliveryArea.url = this._url('organisations/delivery/area');
+        this.$.createDeliveryArea.url = this._generateUrl('organisations/delivery/area');
         this.$.createDeliveryArea.method = "PUT";
         this.$.createDeliveryArea.contentType = "application/json";
         this.$.createDeliveryArea.body = {
@@ -223,7 +223,7 @@
        * @return {Promise}
        */
       getDeliveryAreas (organisationId) {
-        this.$.getDeliveryAreas.url = this._url('organisations/delivery/area');
+        this.$.getDeliveryAreas.url = this._generateUrl('organisations/delivery/area');
         return this._generateRequest(this.$.getDeliveryAreas);
       }
 
@@ -233,7 +233,7 @@
        * @return {Promise}
        */
       updateDeliveryArea (organisationId, deliveryAreaId, deliveryArea) {
-        this.$.updateDeliveryArea.url = this._url('organisations/delivery/area/' + deliveryAreaId);
+        this.$.updateDeliveryArea.url = this._generateUrl('organisations/delivery/area/' + deliveryAreaId);
         this.$.updateDeliveryArea.method = "PUT";
         this.$.updateDeliveryArea.contentType = "application/json";
         this.$.updateDeliveryArea.body = {
@@ -250,7 +250,7 @@
        * @return {Promise}
        */
       deleteDeliveryArea (organisationId, deliveryAreaId) {
-        this.$.deleteDeliveryArea.url = this._url('organisations/delivery/area/' + deliveryAreaId);
+        this.$.deleteDeliveryArea.url = this._generateUrl('organisations/delivery/area/' + deliveryAreaId);
         this.$.deleteDeliveryArea.method = "DELETE";
         return this._generateRequest(this.$.deleteDeliveryArea);
       }
@@ -261,7 +261,7 @@
        * @return {Promise}
        */
       getSettings (organisationId) {
-        this.$.getSettings.url = this._url('organisations/'+ organisationId +'/settings');
+        this.$.getSettings.url = this._generateUrl('organisations/'+ organisationId +'/settings');
         return this._generateRequest(this.$.getSettings);
       }
 
@@ -273,7 +273,7 @@
        * @return {Promise}
        */
       updateSettings (organisationId, settings) {
-        this.$.updateSettings.url = this._url('organisations/'+ organisationId +'/settings/bulk');
+        this.$.updateSettings.url = this._generateUrl('organisations/'+ organisationId +'/settings/bulk');
         this.$.updateSettings.method = "PUT";
         this.$.updateSettings.contentType = "application/json";
         var body = [];
@@ -337,7 +337,7 @@
             });
             queryUrl = queryUrl.trim("&");
 
-            this.$.getOrganisationConnections.url = this._url('organisations/' + organisationId +'/connections?' + queryUrl);
+            this.$.getOrganisationConnections.url = this._generateUrl('organisations/' + organisationId +'/connections?' + queryUrl);
             return this._generateRequest(this.$.getOrganisationConnections);
         }
 
