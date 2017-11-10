@@ -331,8 +331,8 @@
 
             var queryUrl = "";
             array.forEach(function(e){
-                if((e.value !== "")&&(e.value !== null)) {
-                    queryUrl += e.name + "=" + e.value + "&";
+                if((Object.values(e)[0] !== "")&&(Object.values(e)[0] !== null)) {
+                    queryUrl += Object.keys(e)[0] + "=" + Object.values(e)[0] + "&";
                 }
             });
             queryUrl = queryUrl.trim("&");
