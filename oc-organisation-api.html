@@ -25,6 +25,7 @@
     <iron-ajax id="getSettings"></iron-ajax>
     <iron-ajax id="updateSettings"></iron-ajax>
     <iron-ajax id="getOrganisationConnections"></iron-ajax>
+    <iron-ajax id="getOrganisationAccount"></iron-ajax>
   </template>
 
   <script>
@@ -62,6 +63,17 @@
         this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId);
         return this._generateRequest(this.$.getOrganisation);
       }
+
+		/**
+		 * Retrieve Acount for Organisation
+		 *
+		 * @param {Long} organisationId
+		 * @return {Promise}
+		 */
+		getOrganisationAccount(organisationId) {
+			this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId + '/accounts');
+			return this._generateRequest(this.$.getOrganisation);
+		}
 
       /**
        * Retrieve an organisation from the authentication header
