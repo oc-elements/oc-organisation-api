@@ -28,30 +28,35 @@
     <iron-ajax id="getOrganisationAccount"></iron-ajax>
   </template>
 
-  <script>
-    /**
-     * `oc-organisation-api`
-     * Api call for Ordercloud organisation api
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class OcOrganisationApi extends Ordercloud.ApiMixin(Polymer.Element) {
-      static get is() { return 'oc-organisation-api'; }
-      static get behaviours() {}
-      /**
-       * Create a new organisation
-       *
-       * @return {Promise}
-       */
-      createOrganisation (newOrganisation) {
-        this.$.createOrganisation.url = this._generateUrl('organisations');
-        this.$.createOrganisation.method = "POST";
-        this.$.createOrganisation.contentType = "application/json";
-        this.$.createOrganisation.body = newOrganisation;
-        return this._generateRequest(this.$.createOrganisation);
-      }
+    <script>
+		/**
+		 * `oc-organisation-api`
+		 * Api call for Ordercloud organisation api
+		 *
+		 * @customElement
+		 * @polymer
+		 * @demo demo/index.html
+		 */
+		class OcOrganisationApi extends Ordercloud.ApiMixin(Polymer.Element) {
+			static get is() {
+				return 'oc-organisation-api';}
+
+
+			static get behaviours() {
+			}
+
+			/**
+			 * Create a new organisation
+			 *
+			 * @return {Promise}
+			 */
+			createOrganisation(newOrganisation) {
+				this.$.createOrganisation.url = this._generateUrl('organisations');
+				this.$.createOrganisation.method = "POST";
+				this.$.createOrganisation.contentType = "application/json";
+				this.$.createOrganisation.body = newOrganisation;
+				return this._generateRequest(this.$.createOrganisation);
+			}
 
       /**
        * Retrieve an organisation
@@ -239,22 +244,22 @@
         return this._generateRequest(this.$.getDeliveryAreas);
       }
 
-      /**
-       * Update an organisation's delivery areas
-       *
-       * @return {Promise}
-       */
-      updateDeliveryArea (organisationId, deliveryAreaId, deliveryArea) {
-        this.$.updateDeliveryArea.url = this._generateUrl('organisations/delivery/area/' + deliveryAreaId);
-        this.$.updateDeliveryArea.method = "PUT";
-        this.$.updateDeliveryArea.contentType = "application/json";
-        this.$.updateDeliveryArea.body = {
-          latitude: deliveryArea.latitude,
-          longitude: deliveryArea.longitude,
-          radius: deliveryArea.radius
-        };
-        return this._generateRequest(this.$.updateDeliveryArea);
-      }
+			/**
+			 * Update an organisation's delivery areas
+			 *
+			 * @return {Promise}
+			 */
+			updateDeliveryArea(organisationId, deliveryAreaId, deliveryArea) {
+				this.$.updateDeliveryArea.url = this._generateUrl('organisations/delivery/area/' + deliveryAreaId);
+				this.$.updateDeliveryArea.method = "PUT";
+				this.$.updateDeliveryArea.contentType = "application/json";
+				this.$.updateDeliveryArea.body = {
+					latitude: deliveryArea.latitude,
+					longitude: deliveryArea.longitude,
+					radius: deliveryArea.radius
+				};
+				return this._generateRequest(this.$.updateDeliveryArea);
+			}
 
       /**
        * Delete a delivery area
@@ -321,12 +326,13 @@
          * @param {String} lat from where to check the radius
          * @param {String} long from where to check the radius
          * @param {Number} page number
-         * @param (Number} pagesize number
-         *
+         * @param {Number} pagesize number
+         *@param {Boolean} marketplace whether to use the marketplace clientID
+           *
          *
          * @return {Promise}
          */
-        getOrganisationConnections (organisationId, type, radius, lat ,long , page, pagesize) {
+        getOrganisationConnections (organisationId, type, radius, lat ,long , page, pagesize, marketplace) {
 
             //Query parameters available
             var array = [
@@ -350,7 +356,7 @@
             queryUrl = queryUrl.trim("&");
 
             this.$.getOrganisationConnections.url = this._generateUrl('organisations/' + organisationId +'/connections?' + queryUrl);
-            return this._generateRequest(this.$.getOrganisationConnections);
+            return this._generateRequest(this.$.getOrganisationConnections, marketplace);
         }
 
     }
