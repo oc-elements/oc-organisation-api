@@ -19,6 +19,8 @@
         <iron-ajax id="updateBankAccountDetails"></iron-ajax>
         <iron-ajax id="getAddress"></iron-ajax>
         <iron-ajax id="createAddress"></iron-ajax>
+        <iron-ajax id="getDeliveryAddresses"></iron-ajax>
+        <iron-ajax id="setDeliveryAddresses"></iron-ajax>
         <iron-ajax id="createDeliveryArea"></iron-ajax>
         <iron-ajax id="getDeliveryAreas"></iron-ajax>
         <iron-ajax id="updateDeliveryArea"></iron-ajax>
@@ -30,352 +32,365 @@
     </template>
 
     <script>
-        /**
-         * `oc-organisation-api`
-         * Api call for Ordercloud organisation api
-         *
-         * @customElement
-         * @polymer
-         * @demo demo/index.html
-         */
-        class OcOrganisationApi extends Ordercloud.ApiMixin(Polymer.Element) {
-            static get is() {
-                return 'oc-organisation-api';
-            }
+		/**
+		 * `oc-organisation-api`
+		 * Api call for Ordercloud organisation api
+		 *
+		 * @customElement
+		 * @polymer
+		 * @demo demo/index.html
+		 */
+		class OcOrganisationApi extends Ordercloud.ApiMixin(Polymer.Element) {
+			static get is() {
+				return 'oc-organisation-api';
+			}
 
 
-            static get behaviours() {
-            }
+			static get behaviours() {
+			}
 
-            /**
-             * Create a new organisation
-             *
-             * @return {Promise}
-             */
-            createOrganisation(newOrganisation) {
-                this.$.createOrganisation.url = this._generateUrl('organisations');
-                this.$.createOrganisation.method = "POST";
-                this.$.createOrganisation.contentType = "application/json";
-                this.$.createOrganisation.body = newOrganisation;
-                return this._generateRequest(this.$.createOrganisation);
-            }
+			/**
+			 * Create a new organisation
+			 *
+			 * @return {Promise}
+			 */
+			createOrganisation(newOrganisation) {
+				this.$.createOrganisation.url = this._generateUrl('organisations');
+				this.$.createOrganisation.method = "POST";
+				this.$.createOrganisation.contentType = "application/json";
+				this.$.createOrganisation.body = newOrganisation;
+				return this._generateRequest(this.$.createOrganisation);
+			}
 
-            /**
-             * Retrieve an organisation
-             *
-             * @param {Long} organisationId
-             * @return {Promise}
-             */
-            getOrganisation(organisationId) {
-                this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId);
-                return this._generateRequest(this.$.getOrganisation);
-            }
+			/**
+			 * Retrieve an organisation
+			 *
+			 * @param {Long} organisationId
+			 * @return {Promise}
+			 */
+			getOrganisation(organisationId) {
+				this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId);
+				return this._generateRequest(this.$.getOrganisation);
+			}
 
-            /**
-             * Retrieve Acount for Organisation
-             *
-             * @param {Long} organisationId
-             * @return {Promise}
-             */
-            getOrganisationAccount(organisationId) {
-                this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId + '/accounts');
-                return this._generateRequest(this.$.getOrganisation);
-            }
+			/**
+			 * Retrieve Acount for Organisation
+			 *
+			 * @param {Long} organisationId
+			 * @return {Promise}
+			 */
+			getOrganisationAccount(organisationId) {
+				this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId + '/accounts');
+				return this._generateRequest(this.$.getOrganisation);
+			}
 
-            /**
-             * Retrieve an organisation from the authentication header
-             *
-             * @return {Promise}
-             */
-            getOrganisationByHeader() {
-                this.$.getOrganisation.url = this._generateUrl('organisations/');
-                return this._generateRequest(this.$.getOrganisation);
-            }
-
-
-            /**
-             * Retrieve all Ordercloud supported organisation types
-             *
-             * @return {Promise}
-             */
-            getOrganisationTypes() {
-                this.$.getOrganisationTypes.url = this._generateUrl('organisations/types');
-                return this._generateRequest(this.$.getOrganisationTypes);
-            }
-
-            /**
-             * Retrieve all Ordercloud supported industries
-             *
-             * @return {Promise}
-             */
-            getOrganisationIndustries() {
-                this.$.getOrganisationIndustries.url = this._generateUrl('industry');
-                return this._generateRequest(this.$.getOrganisationIndustries);
-            }
-
-            /**
-             * Update an organisation's profile
-             *
-             * @return {Promise}
-             */
-            updateOrganisation(organisationId, organisation) {
-                this.$.updateOrganisation.url = this._generateUrl('organisations/' + organisationId);
-                this.$.updateOrganisation.method = "PUT";
-                this.$.updateOrganisation.contentType = "application/json";
-                this.$.updateOrganisation.body = organisation;
-                return this._generateRequest(this.$.updateOrganisation);
-            }
-
-            /**
-             * Update an organisation's details
-             *
-             * @return {Promise}
-             */
-            updateOrganisationDetails(organisationId, organisationDetails) {
-                this.$.updateOrganisationDetails.url = this._generateUrl('organisations/' + organisationId + '/detail');
-                this.$.updateOrganisationDetails.method = "PUT";
-                this.$.updateOrganisationDetails.contentType = "application/json";
-                this.$.updateOrganisationDetails.body = organisationDetails;
-                return this._generateRequest(this.$.updateOrganisationDetails);
-            }
-
-            /**
-             * Update an organisation's declared types and industries
-             *
-             * @return {Promise}
-             */
-            updateOrganisationTypesIndustries(organisationId, selectedTypesAndIndustries) {
-                this.$.updateOrganisationTypesIndustries.url = this._generateUrl('organisations/' + organisationId + '/setup/typeindustry');
-                this.$.updateOrganisationTypesIndustries.method = "PUT";
-                this.$.updateOrganisationTypesIndustries.contentType = "application/json";
-                this.$.updateOrganisationTypesIndustries.body = selectedTypesAndIndustries;
-                return this._generateRequest(this.$.updateOrganisationTypesIndustries);
-            }
-
-            /**
-             * Get the access token for an organisation.
-             * @param {Number} organisationId
-             * @returns {Promise}
-             */
-            getOrganisationAccessToken(organisationId) {
-                this.$.getOrganisationAccessToken.url = this._generateUrl('organisations/' + organisationId + '/accesstoken');
-                return this._generateRequest(this.$.getOrganisationAccessToken);
-            }
-
-            /**
-             * Get an organisation's business hours
-             *
-             * @return {Promise}
-             */
-            getOrganisationHours(organisationId) {
-                this.$.getOrganisationHours.url = this._generateUrl('organisations/' + organisationId + '/hours');
-                return this._generateRequest(this.$.getOrganisationHours);
-            }
-
-            /**
-             * Update an organisation's business hours
-             *
-             * @return {Promise}
-             */
-            updateOrganisationHours(organisationId, businessHours) {
-                this.$.updateOrganisationHours.url = this._generateUrl('organisations/' + organisationId + '/hours');
-                this.$.updateOrganisationHours.method = "PUT";
-                this.$.updateOrganisationHours.contentType = "application/json";
-                this.$.updateOrganisationHours.body = businessHours;
-                return this._generateRequest(this.$.updateOrganisationHours);
-            }
-
-            /**
-             * Get an organisation's bank account details
-             *
-             * @return {Promise}
-             */
-            getBankAccountDetails(organisationId) {
-                this.$.getBankAccountDetails.url = this._generateUrl('organisations/' + organisationId + '/bankdetail');
-                return this._generateRequest(this.$.getBankAccountDetails);
-            }
-
-            /**
-             * Update an organisation's bank account details
-             *
-             * @return {Promise}
-             */
-            updateBankAccountDetails(organisationId, accountDetails) {
-                this.$.updateBankAccountDetails.url = this._generateUrl('organisations/' + organisationId + '/bankdetail');
-                this.$.updateBankAccountDetails.method = "PUT";
-                this.$.updateBankAccountDetails.contentType = "application/json";
-                this.$.updateBankAccountDetails.body = accountDetails;
-                return this._generateRequest(this.$.updateBankAccountDetails);
-            }
-
-            /**
-             * Get an organisation's address and GEO location
-             *
-             * @return {Promise}
-             */
-            getAddress(organisationId) {
-                this.$.getAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
-                return this._generateRequest(this.$.getAddress);
-            }
-
-            /**
-             * Create an address and GEO location for an organisation
-             *
-             * @return {Promise}
-             */
-            createAddress(organisationId, address) {
-                this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
-                this.$.createAddress.method = "POST";
-                this.$.createAddress.contentType = "application/json";
-                this.$.createAddress.body = address;
-                return this._generateRequest(this.$.createAddress);
-            }
+			/**
+			 * Retrieve an organisation from the authentication header
+			 *
+			 * @return {Promise}
+			 */
+			getOrganisationByHeader() {
+				this.$.getOrganisation.url = this._generateUrl('organisations/');
+				return this._generateRequest(this.$.getOrganisation);
+			}
 
 
-            /**
-             * Create a delivery area
-             *
-             * @return {Promise}
-             */
-            createDeliveryArea(organisationId, deliveryArea) {
-                this.$.createDeliveryArea.url = this._generateUrl('organisations/delivery/area');
-                this.$.createDeliveryArea.method = "PUT";
-                this.$.createDeliveryArea.contentType = "application/json";
-                this.$.createDeliveryArea.body = {
-                    latitude: deliveryArea.latitude,
-                    longitude: deliveryArea.longitude,
-                    radius: deliveryArea.radius
-                };
-                return this._generateRequest(this.$.createDeliveryArea);
-            }
+			/**
+			 * Retrieve all Ordercloud supported organisation types
+			 *
+			 * @return {Promise}
+			 */
+			getOrganisationTypes() {
+				this.$.getOrganisationTypes.url = this._generateUrl('organisations/types');
+				return this._generateRequest(this.$.getOrganisationTypes);
+			}
 
-            /**
-             * Get an organisation's delivery areas
-             *
-             * @return {Promise}
-             */
-            getDeliveryAreas(organisationId) {
-                this.$.getDeliveryAreas.url = this._generateUrl('organisations/delivery/area');
-                return this._generateRequest(this.$.getDeliveryAreas);
-            }
+			/**
+			 * Retrieve all Ordercloud supported industries
+			 *
+			 * @return {Promise}
+			 */
+			getOrganisationIndustries() {
+				this.$.getOrganisationIndustries.url = this._generateUrl('industry');
+				return this._generateRequest(this.$.getOrganisationIndustries);
+			}
 
-            /**
-             * Update an organisation's delivery areas
-             *
-             * @return {Promise}
-             */
-            updateDeliveryArea(organisationId, deliveryAreaId, deliveryArea) {
-                this.$.updateDeliveryArea.url = this._generateUrl('organisations/delivery/area/' + deliveryAreaId);
-                this.$.updateDeliveryArea.method = "PUT";
-                this.$.updateDeliveryArea.contentType = "application/json";
-                this.$.updateDeliveryArea.body = {
-                    latitude: deliveryArea.latitude,
-                    longitude: deliveryArea.longitude,
-                    radius: deliveryArea.radius
-                };
-                return this._generateRequest(this.$.updateDeliveryArea);
-            }
+			/**
+			 * Update an organisation's profile
+			 *
+			 * @return {Promise}
+			 */
+			updateOrganisation(organisationId, organisation) {
+				this.$.updateOrganisation.url = this._generateUrl('organisations/' + organisationId);
+				this.$.updateOrganisation.method = "PUT";
+				this.$.updateOrganisation.contentType = "application/json";
+				this.$.updateOrganisation.body = organisation;
+				return this._generateRequest(this.$.updateOrganisation);
+			}
 
-            /**
-             * Delete a delivery area
-             *
-             * @return {Promise}
-             */
-            deleteDeliveryArea(organisationId, deliveryAreaId) {
-                this.$.deleteDeliveryArea.url = this._generateUrl('organisations/delivery/area/' + deliveryAreaId);
-                this.$.deleteDeliveryArea.method = "DELETE";
-                return this._generateRequest(this.$.deleteDeliveryArea);
-            }
+			/**
+			 * Update an organisation's details
+			 *
+			 * @return {Promise}
+			 */
+			updateOrganisationDetails(organisationId, organisationDetails) {
+				this.$.updateOrganisationDetails.url = this._generateUrl('organisations/' + organisationId + '/detail');
+				this.$.updateOrganisationDetails.method = "PUT";
+				this.$.updateOrganisationDetails.contentType = "application/json";
+				this.$.updateOrganisationDetails.body = organisationDetails;
+				return this._generateRequest(this.$.updateOrganisationDetails);
+			}
 
-            /**
-             * Get an organisation's settings
-             *
-             * @return {Promise}
-             */
-            getSettings(organisationId) {
-                this.$.getSettings.url = this._generateUrl('organisations/' + organisationId + '/settings');
-                return this._generateRequest(this.$.getSettings);
-            }
+			/**
+			 * Update an organisation's declared types and industries
+			 *
+			 * @return {Promise}
+			 */
+			updateOrganisationTypesIndustries(organisationId, selectedTypesAndIndustries) {
+				this.$.updateOrganisationTypesIndustries.url = this._generateUrl('organisations/' + organisationId + '/setup/typeindustry');
+				this.$.updateOrganisationTypesIndustries.method = "PUT";
+				this.$.updateOrganisationTypesIndustries.contentType = "application/json";
+				this.$.updateOrganisationTypesIndustries.body = selectedTypesAndIndustries;
+				return this._generateRequest(this.$.updateOrganisationTypesIndustries);
+			}
 
-            /**
-             * Get an organisation's settings
-             *
-             * @param {Number} organisationId
-             * @param { {value:Object, key: {id:Number, name:String}}} settings
-             * @return {Promise}
-             */
-            updateSettings(organisationId, settings) {
-                this.$.updateSettings.url = this._generateUrl('organisations/' + organisationId + '/settings/bulk');
-                this.$.updateSettings.method = "PUT";
-                this.$.updateSettings.contentType = "application/json";
-                var body = [];
-                for (var i in settings) {
-                    body.push({
-                        id: (settings[i].id != null) ? settings[i].id : null,
-                        value: (settings[i].value != null) ? settings[i].value : null,
-                        key: {
-                            id: settings[i].key.id,
-                            name: settings[i].key.name
-                        },
-                        startDate: settings[i].startDate,
-                        endDate: settings[i].endDate,
-                        dateCreated: settings[i].dateCreated,
-                        lastUpdated: settings[i].lastUpdated,
-                        organisation: {
-                            id: (settings[i].organisation != null) ? settings[i].organisation.id : organisationId,
-                            name: (settings[i].organisation != null) ? settings[i].organisation.name : "Api breaks if there's no value here",
-                            code: (settings[i].organisation != null) ? settings[i].organisation.code : "Api breaks if there's no value here"
-                        }
-                    })
-                }
-                this.$.updateSettings.body = body;
-                return this._generateRequest(this.$.updateSettings);
-            }
+			/**
+			 * Get the access token for an organisation.
+			 * @param {Number} organisationId
+			 * @returns {Promise}
+			 */
+			getOrganisationAccessToken(organisationId) {
+				this.$.getOrganisationAccessToken.url = this._generateUrl('organisations/' + organisationId + '/accesstoken');
+				return this._generateRequest(this.$.getOrganisationAccessToken);
+			}
 
-            /**
-             * Retrieve an organisations connections by types
-             *
-             * @param {Number} organisationId
-             * @param {String}type  the code from connection types
-             * @param {Number} radius in meters
-             * @param {String} lat from where to check the radius
-             * @param {String} long from where to check the radius
-             * @param {Number} page number
-             * @param {Number} pagesize number
-             *@param {Boolean} marketplace whether to use the marketplace clientID
-             *
-             *
-             * @return {Promise}
-             */
-            getOrganisationConnections(organisationId, type, radius, lat, long, page, pagesize, marketplace) {
+			/**
+			 * Get an organisation's business hours
+			 *
+			 * @return {Promise}
+			 */
+			getOrganisationHours(organisationId) {
+				this.$.getOrganisationHours.url = this._generateUrl('organisations/' + organisationId + '/hours');
+				return this._generateRequest(this.$.getOrganisationHours);
+			}
 
-                //Query parameters available
-                var array = [
-                    {"type": type},
-                    {"status": "CONNECTED"},
-                    {"showDisabled": false},
-                    {"radius": radius},
-                    {"lat": lat},
-                    {"long": long},
-                    {"industry": ""},
-                    {"page": page},
-                    {"pagesize": pagesize}
-                ];
+			/**
+			 * Update an organisation's business hours
+			 *
+			 * @return {Promise}
+			 */
+			updateOrganisationHours(organisationId, businessHours) {
+				this.$.updateOrganisationHours.url = this._generateUrl('organisations/' + organisationId + '/hours');
+				this.$.updateOrganisationHours.method = "PUT";
+				this.$.updateOrganisationHours.contentType = "application/json";
+				this.$.updateOrganisationHours.body = businessHours;
+				return this._generateRequest(this.$.updateOrganisationHours);
+			}
 
-                var queryUrl = "";
-                array.forEach(function (e) {
-                    if ((Object.values(e)[0] !== "") && (Object.values(e)[0] !== null)) {
-                        queryUrl += Object.keys(e)[0] + "=" + Object.values(e)[0] + "&";
-                    }
-                });
-                queryUrl = queryUrl.trim("&");
+			/**
+			 * Get an organisation's bank account details
+			 *
+			 * @return {Promise}
+			 */
+			getBankAccountDetails(organisationId) {
+				this.$.getBankAccountDetails.url = this._generateUrl('organisations/' + organisationId + '/bankdetail');
+				return this._generateRequest(this.$.getBankAccountDetails);
+			}
 
-                this.$.getOrganisationConnections.url = this._generateUrl('organisations/' + organisationId + '/connections?' + queryUrl);
-                return this._generateRequest(this.$.getOrganisationConnections, marketplace);
-            }
+			/**
+			 * Update an organisation's bank account details
+			 *
+			 * @return {Promise}
+			 */
+			updateBankAccountDetails(organisationId, accountDetails) {
+				this.$.updateBankAccountDetails.url = this._generateUrl('organisations/' + organisationId + '/bankdetail');
+				this.$.updateBankAccountDetails.method = "PUT";
+				this.$.updateBankAccountDetails.contentType = "application/json";
+				this.$.updateBankAccountDetails.body = accountDetails;
+				return this._generateRequest(this.$.updateBankAccountDetails);
+			}
 
-        }
+			/**
+			 * Get an organisation's address and GEO location
+			 *
+			 * @return {Promise}
+			 */
+			getAddress(organisationId) {
+				this.$.getAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+				return this._generateRequest(this.$.getAddress);
+			}
 
-        window.customElements.define(OcOrganisationApi.is, OcOrganisationApi);
+			/**
+			 * Create an address and GEO location for an organisation
+			 *
+			 * @return {Promise}
+			 */
+			createAddress(organisationId, address) {
+				this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+				this.$.createAddress.method = "POST";
+				this.$.createAddress.contentType = "application/json";
+				this.$.createAddress.body = address;
+				return this._generateRequest(this.$.createAddress);
+			}
+
+
+			/**
+			 * Create a delivery area
+			 *
+			 * @return {Promise}
+			 */
+			createDeliveryArea(organisationId, deliveryArea) {
+				this.$.createDeliveryArea.url = this._generateUrl('organisations/delivery/area');
+				this.$.createDeliveryArea.method = "PUT";
+				this.$.createDeliveryArea.contentType = "application/json";
+				this.$.createDeliveryArea.body = {
+					latitude: deliveryArea.latitude,
+					longitude: deliveryArea.longitude,
+					radius: deliveryArea.radius
+				};
+				return this._generateRequest(this.$.createDeliveryArea);
+			}
+
+			/**
+			 * Get an organisation's delivery areas
+			 *
+			 * @return {Promise}
+			 */
+			getDeliveryAreas(organisationId) {
+				this.$.getDeliveryAreas.url = this._generateUrl('organisations/delivery/area');
+				return this._generateRequest(this.$.getDeliveryAreas);
+			}
+
+			getDeliveryAddresses(organisationId) {
+				this.$.getDeliveryAddresses.url = this._generateUrl('organisations/' + organisationId + '/delivery-locations');
+				return this._generateRequest(this.$.getDeliveryAddresses);
+			}
+
+			setDeliveryAddresses(organisationId, body) {
+				this.$.setDeliveryAddresses.url = this._generateUrl('organisations/' + organisationId + '/delivery-locations');
+				this.$.setDeliveryAddresses.method = "POST";
+				this.$.setDeliveryAddresses.contentType = "application/json";
+				this.$.setDeliveryAddresses.body = body;
+				return this._generateRequest(this.$.setDeliveryAddresses);
+			}
+
+			/**
+			 * Update an organisation's delivery areas
+			 *
+			 * @return {Promise}
+			 */
+			updateDeliveryArea(organisationId, deliveryAreaId, deliveryArea) {
+				this.$.updateDeliveryArea.url = this._generateUrl('organisations/delivery/area/' + deliveryAreaId);
+				this.$.updateDeliveryArea.method = "PUT";
+				this.$.updateDeliveryArea.contentType = "application/json";
+				this.$.updateDeliveryArea.body = {
+					latitude: deliveryArea.latitude,
+					longitude: deliveryArea.longitude,
+					radius: deliveryArea.radius
+				};
+				return this._generateRequest(this.$.updateDeliveryArea);
+			}
+
+			/**
+			 * Delete a delivery area
+			 *
+			 * @return {Promise}
+			 */
+			deleteDeliveryArea(organisationId, deliveryAreaId) {
+				this.$.deleteDeliveryArea.url = this._generateUrl('organisations/delivery/area/' + deliveryAreaId);
+				this.$.deleteDeliveryArea.method = "DELETE";
+				return this._generateRequest(this.$.deleteDeliveryArea);
+			}
+
+			/**
+			 * Get an organisation's settings
+			 *
+			 * @return {Promise}
+			 */
+			getSettings(organisationId) {
+				this.$.getSettings.url = this._generateUrl('organisations/' + organisationId + '/settings');
+				return this._generateRequest(this.$.getSettings);
+			}
+
+			/**
+			 * Get an organisation's settings
+			 *
+			 * @param {Number} organisationId
+			 * @param { {value:Object, key: {id:Number, name:String}}} settings
+			 * @return {Promise}
+			 */
+			updateSettings(organisationId, settings) {
+				this.$.updateSettings.url = this._generateUrl('organisations/' + organisationId + '/settings/bulk');
+				this.$.updateSettings.method = "PUT";
+				this.$.updateSettings.contentType = "application/json";
+				var body = [];
+				for (var i in settings) {
+					body.push({
+						id: (settings[i].id != null) ? settings[i].id : null,
+						value: (settings[i].value != null) ? settings[i].value : null,
+						key: {
+							id: settings[i].key.id,
+							name: settings[i].key.name
+						},
+						startDate: settings[i].startDate,
+						endDate: settings[i].endDate,
+						dateCreated: settings[i].dateCreated,
+						lastUpdated: settings[i].lastUpdated,
+						organisation: {
+							id: (settings[i].organisation != null) ? settings[i].organisation.id : organisationId,
+							name: (settings[i].organisation != null) ? settings[i].organisation.name : "Api breaks if there's no value here",
+							code: (settings[i].organisation != null) ? settings[i].organisation.code : "Api breaks if there's no value here"
+						}
+					})
+				}
+				this.$.updateSettings.body = body;
+				return this._generateRequest(this.$.updateSettings);
+			}
+
+			/**
+			 * Retrieve an organisations connections by types
+			 *
+			 * @param {Number} organisationId
+			 * @param {String}type  the code from connection types
+			 * @param {Number} radius in meters
+			 * @param {String} lat from where to check the radius
+			 * @param {String} long from where to check the radius
+			 * @param {Number} page number
+			 * @param {Number} pagesize number
+			 *@param {Boolean} marketplace whether to use the marketplace clientID
+			 *
+			 *
+			 * @return {Promise}
+			 */
+			getOrganisationConnections(organisationId, type, radius, lat, long, page, pagesize, marketplace) {
+
+				//Query parameters available
+				var array = [
+					{"type": type},
+					{"status": "CONNECTED"},
+					{"showDisabled": false},
+					{"radius": radius},
+					{"lat": lat},
+					{"long": long},
+					{"industry": ""},
+					{"page": page},
+					{"pagesize": pagesize}
+				];
+
+				var queryUrl = "";
+				array.forEach(function (e) {
+					if ((Object.values(e)[0] !== "") && (Object.values(e)[0] !== null)) {
+						queryUrl += Object.keys(e)[0] + "=" + Object.values(e)[0] + "&";
+					}
+				});
+				queryUrl = queryUrl.trim("&");
+
+				this.$.getOrganisationConnections.url = this._generateUrl('organisations/' + organisationId + '/connections?' + queryUrl);
+				return this._generateRequest(this.$.getOrganisationConnections, marketplace);
+			}
+
+		}
+
+		window.customElements.define(OcOrganisationApi.is, OcOrganisationApi);
     </script>
 </dom-module>
