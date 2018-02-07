@@ -20,6 +20,8 @@
         <iron-ajax id="getAddress"></iron-ajax>
         <iron-ajax id="createAddress"></iron-ajax>
         <iron-ajax id="getDeliveryAddresses"></iron-ajax>
+        <iron-ajax id="getDeliveryAddress"></iron-ajax>
+        <iron-ajax id="updateDeliveryAddress"></iron-ajax>
         <iron-ajax id="setDeliveryAddresses"></iron-ajax>
         <iron-ajax id="createDeliveryArea"></iron-ajax>
         <iron-ajax id="getDeliveryAreas"></iron-ajax>
@@ -261,6 +263,16 @@
 				return this._generateRequest(this.$.getDeliveryAreas);
 			}
 
+			/**
+			 * Get single delivery address by id
+			 *
+			 * @return {Promise}
+			 */
+			getDeliveryAddress(addressId) {
+				this.$.getDeliveryAddress.url = this._generateUrl('delivery-locations/' + addressId);
+				return this._generateRequest(this.$.getDeliveryAddress);
+			}
+
 			getDeliveryAddresses(organisationId) {
 				this.$.getDeliveryAddresses.url = this._generateUrl('organisations/' + organisationId + '/delivery-locations');
 				return this._generateRequest(this.$.getDeliveryAddresses);
@@ -272,6 +284,19 @@
 				this.$.setDeliveryAddresses.contentType = "application/json";
 				this.$.setDeliveryAddresses.body = body;
 				return this._generateRequest(this.$.setDeliveryAddresses);
+			}
+
+			/**
+			 * Update delivery address
+			 *
+			 * @return {Promise}
+			 */
+			updateDeliveryAddress(addressId, body) {
+				this.$.updateDeliveryAddress.url = this._generateUrl('delivery-locations/' + addressId);
+				this.$.updateDeliveryAddress.method = "PUT";
+				this.$.updateDeliveryAddress.contentType = "application/json";
+				this.$.updateDeliveryAddress.body = body;
+				return this._generateRequest(this.$.updateDeliveryAddress);
 			}
 
 			/**
