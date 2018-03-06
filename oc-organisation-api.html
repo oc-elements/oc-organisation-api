@@ -4,12 +4,14 @@
 
 <dom-module id="oc-organisation-api">
     <template>
+        <!-- ORGANISATION -->
         <iron-ajax id="createOrganisation"></iron-ajax>
         <iron-ajax id="getOrganisation"></iron-ajax>
         <iron-ajax id="getOrganisationByHeader"></iron-ajax>
         <iron-ajax id="getOrganisationTypes"></iron-ajax>
         <iron-ajax id="getOrganisationIndustries"></iron-ajax>
         <iron-ajax id="updateOrganisation"></iron-ajax>
+        <iron-ajax id="uploadOrganisationImage"></iron-ajax>
         <iron-ajax id="updateOrganisationDetails"></iron-ajax>
         <iron-ajax id="updateOrganisationTypesIndustries"></iron-ajax>
         <iron-ajax id="getOrganisationAccessToken"></iron-ajax>
@@ -131,6 +133,14 @@
 				this.$.updateOrganisation.contentType = "application/json";
 				this.$.updateOrganisation.body = organisation;
 				return this._generateRequest(this.$.updateOrganisation);
+			}
+
+			uploadOrganisationImage(organisationId, body) {
+				this.$.uploadOrganisationImage.url = this._generateUrl('organisations/' + organisationId + '/image');
+				this.$.uploadOrganisationImage.method = "PUT";
+				this.$.uploadOrganisationImage.contentType = undefined;
+				this.$.uploadOrganisationImage.body = body;
+				return this._generateRequest(this.$.uploadOrganisationImage);
 			}
 
 			/**
