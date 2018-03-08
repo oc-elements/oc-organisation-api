@@ -7,6 +7,8 @@
         <!-- ORGANISATION -->
         <iron-ajax id="createOrganisation"></iron-ajax>
         <iron-ajax id="getOrganisation"></iron-ajax>
+        <iron-ajax id="getOrganisations"></iron-ajax>
+        <iron-ajax id="getOrganisationDetail"></iron-ajax>
         <iron-ajax id="getOrganisationByHeader"></iron-ajax>
         <iron-ajax id="getOrganisationTypes"></iron-ajax>
         <iron-ajax id="getOrganisationIndustries"></iron-ajax>
@@ -70,6 +72,16 @@
 			}
 
 			/**
+			 * Retrieve all organisations
+			 *
+			 * @return {Promise}
+			 */
+			getOrganisations() {
+				this.$.getOrganisations.url = this._generateUrl('organisations');
+				return this._generateRequest(this.$.getOrganisations);
+			}
+
+			/**
 			 * Retrieve an organisation
 			 *
 			 * @param {Long} organisationId
@@ -78,6 +90,17 @@
 			getOrganisation(organisationId) {
 				this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId);
 				return this._generateRequest(this.$.getOrganisation);
+			}
+
+			/**
+			 * Retrieve an organisation's detail which include contact person and address
+			 *
+			 * @param {Number} organisationId
+			 * @return {Promise}
+			 */
+			getOrganisationDetail(organisationId) {
+				this.$.getOrganisationDetail.url = this._generateUrl(`organisations/${organisationId}/detail`);
+				return this._generateRequest(this.$.getOrganisationDetail);
 			}
 
 			/**
