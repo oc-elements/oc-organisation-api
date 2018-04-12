@@ -7,6 +7,7 @@
         <!-- ORGANISATION -->
         <iron-ajax id="createOrganisation"></iron-ajax>
         <iron-ajax id="getOrganisation"></iron-ajax>
+        <iron-ajax id="getOrganisationByCode"></iron-ajax>
         <iron-ajax id="getOrganisations"></iron-ajax>
         <iron-ajax id="getOrganisationDetail"></iron-ajax>
         <iron-ajax id="getOrganisationByHeader"></iron-ajax>
@@ -80,6 +81,17 @@
                 this.$.getOrganisations.url = this._generateUrl('organisations');
                 return this._generateRequest(this.$.getOrganisations);
             }
+
+			/**
+			 * Retrieve an organisation by code
+			 *
+			 * @param {String} code
+			 * @return {Promise}
+			 */
+			getOrganisationByCode(code) {
+				this.$.getOrganisation.url = this._generateUrl('organisations/code/' + code);
+				return this._generateRequest(this.$.getOrganisation);
+			}
 
             /**
              * Retrieve an organisation
