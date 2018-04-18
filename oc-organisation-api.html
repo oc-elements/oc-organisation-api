@@ -82,16 +82,16 @@
                 return this._generateRequest(this.$.getOrganisations);
             }
 
-			/**
-			 * Retrieve an organisation by code
-			 *
-			 * @param {String} code
-			 * @return {Promise}
-			 */
-			getOrganisationByCode(code) {
-				this.$.getOrganisation.url = this._generateUrl('organisations/code/' + code);
-				return this._generateRequest(this.$.getOrganisation);
-			}
+            /**
+             * Retrieve an organisation by code
+             *
+             * @param {String} code
+             * @return {Promise}
+             */
+            getOrganisationByCode(code) {
+                this.$.getOrganisation.url = this._generateUrl('organisations/code/' + code);
+                return this._generateRequest(this.$.getOrganisation);
+            }
 
             /**
              * Retrieve an organisation
