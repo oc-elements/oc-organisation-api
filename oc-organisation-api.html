@@ -4,12 +4,17 @@
 
 <dom-module id="oc-organisation-api">
     <template>
+        <!-- ORGANISATION -->
         <iron-ajax id="createOrganisation"></iron-ajax>
         <iron-ajax id="getOrganisation"></iron-ajax>
+        <iron-ajax id="getOrganisationByCode"></iron-ajax>
+        <iron-ajax id="getOrganisations"></iron-ajax>
+        <iron-ajax id="getOrganisationDetail"></iron-ajax>
         <iron-ajax id="getOrganisationByHeader"></iron-ajax>
         <iron-ajax id="getOrganisationTypes"></iron-ajax>
         <iron-ajax id="getOrganisationIndustries"></iron-ajax>
         <iron-ajax id="updateOrganisation"></iron-ajax>
+        <iron-ajax id="uploadOrganisationImage"></iron-ajax>
         <iron-ajax id="updateOrganisationDetails"></iron-ajax>
         <iron-ajax id="updateOrganisationTypesIndustries"></iron-ajax>
         <iron-ajax id="getOrganisationAccessToken"></iron-ajax>
@@ -17,8 +22,15 @@
         <iron-ajax id="updateOrganisationHours"></iron-ajax>
         <iron-ajax id="getBankAccountDetails"></iron-ajax>
         <iron-ajax id="updateBankAccountDetails"></iron-ajax>
+        <!-- ADDRESS -->
         <iron-ajax id="getAddress"></iron-ajax>
         <iron-ajax id="createAddress"></iron-ajax>
+        <iron-ajax id="updateAddress"></iron-ajax>
+        <!-- DELIVERY ADDRESS -->
+        <iron-ajax id="getDeliveryAddresses"></iron-ajax>
+        <iron-ajax id="getDeliveryAddress"></iron-ajax>
+        <iron-ajax id="updateDeliveryAddress"></iron-ajax>
+        <iron-ajax id="setDeliveryAddresses"></iron-ajax>
         <iron-ajax id="createDeliveryArea"></iron-ajax>
         <iron-ajax id="getDeliveryAreas"></iron-ajax>
         <iron-ajax id="updateDeliveryArea"></iron-ajax>
@@ -61,14 +73,48 @@
             }
 
             /**
+             * Retrieve all organisations
+             *
+             * @return {Promise}
+             */
+            getOrganisations() {
+                this.$.getOrganisations.url = this._generateUrl('organisations');
+                return this._generateRequest(this.$.getOrganisations);
+            }
+
+            /**
+             * Retrieve an organisation by code
+             *
+             * @param {String} code
+             * @return {Promise}
+             */
+            getOrganisationByCode(code) {
+                this.$.getOrganisation.url = this._generateUrl('organisations/code/' + code);
+                return this._generateRequest(this.$.getOrganisation);
+            }
+
+            /**
              * Retrieve an organisation
              *
              * @param {Long} organisationId
+             * @param {Boolean} marketplace
              * @return {Promise}
              */
-            getOrganisation(organisationId) {
+            getOrganisation(organisationId, marketplace = false) {
                 this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId);
-                return this._generateRequest(this.$.getOrganisation);
+                return this._generateRequest(this.$.getOrganisation, marketplace);
+            }
+
+
+            /**
+             * Retrieve an organisation's detail which include contact person and address
+             *
+             * @param {Number} organisationId
+             * @return {Promise}
+             */
+            getOrganisationDetail(organisationId) {
+                this.$.getOrganisationDetail.url = this._generateUrl(`organisations/${organisationId}/detail`);
+                return this._generateRequest(this.$.getOrganisationDetail);
             }
 
             /**
@@ -124,6 +170,14 @@
                 this.$.updateOrganisation.contentType = "application/json";
                 this.$.updateOrganisation.body = organisation;
                 return this._generateRequest(this.$.updateOrganisation);
+            }
+
+            uploadOrganisationImage(organisationId, body) {
+                this.$.uploadOrganisationImage.url = this._generateUrl('organisations/' + organisationId + '/image');
+                this.$.uploadOrganisationImage.method = "PUT";
+                this.$.uploadOrganisationImage.contentType = undefined;
+                this.$.uploadOrganisationImage.body = body;
+                return this._generateRequest(this.$.uploadOrganisationImage);
             }
 
             /**
@@ -231,6 +285,19 @@
                 return this._generateRequest(this.$.createAddress);
             }
 
+            /**
+             * Update an address and GEO location for an organisation
+             *
+             * @return {Promise}
+             */
+            updateAddress(addressId, address) {
+                this.$.updateAddress.url = this._generateUrl('organisations/address/' + addressId);
+                this.$.updateAddress.method = "PUT";
+                this.$.updateAddress.contentType = "application/json";
+                this.$.updateAddress.body = address;
+                return this._generateRequest(this.$.updateAddress);
+            }
+
 
             /**
              * Create a delivery area
@@ -257,6 +324,42 @@
             getDeliveryAreas(organisationId) {
                 this.$.getDeliveryAreas.url = this._generateUrl('organisations/delivery/area');
                 return this._generateRequest(this.$.getDeliveryAreas);
+            }
+
+            /**
+             * Get single delivery address by id
+             *
+             * @return {Promise}
+             */
+            getDeliveryAddress(addressId) {
+                this.$.getDeliveryAddress.url = this._generateUrl('delivery-locations/' + addressId);
+                return this._generateRequest(this.$.getDeliveryAddress);
+            }
+
+            getDeliveryAddresses(organisationId) {
+                this.$.getDeliveryAddresses.url = this._generateUrl('organisations/' + organisationId + '/delivery-locations');
+                return this._generateRequest(this.$.getDeliveryAddresses);
+            }
+
+            setDeliveryAddresses(organisationId, body) {
+                this.$.setDeliveryAddresses.url = this._generateUrl('organisations/' + organisationId + '/delivery-locations');
+                this.$.setDeliveryAddresses.method = "POST";
+                this.$.setDeliveryAddresses.contentType = "application/json";
+                this.$.setDeliveryAddresses.body = body;
+                return this._generateRequest(this.$.setDeliveryAddresses);
+            }
+
+            /**
+             * Update delivery address
+             *
+             * @return {Promise}
+             */
+            updateDeliveryAddress(addressId, body) {
+                this.$.updateDeliveryAddress.url = this._generateUrl('delivery-locations/' + addressId);
+                this.$.updateDeliveryAddress.method = "PUT";
+                this.$.updateDeliveryAddress.contentType = "application/json";
+                this.$.updateDeliveryAddress.body = body;
+                return this._generateRequest(this.$.updateDeliveryAddress);
             }
 
             /**
@@ -364,10 +467,14 @@
 
                 var queryUrl = "";
                 array.forEach(function (e) {
-                    if ((Object.values(e)[0] !== "") && (Object.values(e)[0] !== null)) {
-                        queryUrl += Object.keys(e)[0] + "=" + Object.values(e)[0] + "&";
-                    }
+                    Object.keys(e).map(function(key) {
+                        if ((e[key] !== "") && (e[key] !== null)) {
+                            queryUrl += key + "=" + e[key] + "&";
+                        }
+                    });
+
                 });
+
                 queryUrl = queryUrl.trim("&");
 
                 this.$.getOrganisationConnections.url = this._generateUrl('organisations/' + organisationId + '/connections?' + queryUrl);
