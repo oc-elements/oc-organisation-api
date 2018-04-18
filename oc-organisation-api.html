@@ -467,10 +467,14 @@
 
                 var queryUrl = "";
                 array.forEach(function (e) {
-                    if ((Object.values(e)[0] !== "") && (Object.values(e)[0] !== null)) {
-                        queryUrl += Object.keys(e)[0] + "=" + Object.values(e)[0] + "&";
-                    }
+                    Object.keys(e).map(function(key) {
+                        if ((e[key] !== "") && (e[key] !== null)) {
+                            queryUrl += key + "=" + e[key] + "&";
+                        }
+                    });
+
                 });
+
                 queryUrl = queryUrl.trim("&");
 
                 this.$.getOrganisationConnections.url = this._generateUrl('organisations/' + organisationId + '/connections?' + queryUrl);
