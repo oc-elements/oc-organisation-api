@@ -42,6 +42,9 @@
         <iron-ajax id="getOrganisationAccount"></iron-ajax>
         <!-- SETTINGS -->
         <iron-ajax id="getOrganisationSettings"></iron-ajax>
+        <!-- TRANSACTIONS -->
+        <iron-ajax id="getAllOrganisationTransactions"></iron-ajax>
+        <iron-ajax id="getOrganisationAccountTransactions"></iron-ajax>
     </template>
 
     <script>
@@ -487,6 +490,26 @@
 			getOrganisationSettings(organisationId) {
 				this.$.getOrganisationSettings.url = this._generateUrl(`organisations/${organisationId}/settings`);
 				return this._generateRequest(this.$.getOrganisationSettings);
+			}
+
+			/**
+			 * Retrieve all of an organisation's transactions
+			 * /organisations/orgId/transactions
+			 * @return {Promise}
+			 */
+			getAllOrganisationTransactions(organisationId) {
+				this.$.getAllOrganisationTransactions.url = this._generateUrl('organisations/' +organisationId +'/transactions');
+				return this._generateRequest(this.$.getAllOrganisationTransactions);
+			}
+
+			/**
+			 * Retrieve all organisation transactions by account
+			 * /organisations/orgId/transactions?account_id=accountId
+			 * @return {Promise}
+			 */
+			getOrganisationAccountTransactions(organisationId, accountId) {
+				this.$.getOrganisationAccountTransactions.url = this._generateUrl('organisations/' +organisationId +'/transactions?account_id=' +accountId);
+				return this._generateRequest(this.$.getOrganisationAccountTransactions);
 			}
 		}
 
