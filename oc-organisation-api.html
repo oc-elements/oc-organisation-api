@@ -507,8 +507,12 @@
 			 * /organisations/orgId/transactions?account_id=accountId
 			 * @return {Promise}
 			 */
-			getOrganisationAccountTransactions(organisationId, accountId) {
-				this.$.getOrganisationAccountTransactions.url = this._generateUrl('organisations/' +organisationId +'/transactions?account_id=' +accountId);
+			getOrganisationAccountTransactions(organisationId, accountId, page, pageSize) {
+				const qPage = (page) ? `&page=${page}` : '';
+				const qPageSize = (pageSize) ? `&pagesize=${pageSize}` : '';
+				const optionalParams = qPage + qPageSize;
+
+				this.$.getOrganisationAccountTransactions.url = this._generateUrl(`organisations/${organisationId}/transactions?account_id=${accountId}${optionalParams}`);
 				return this._generateRequest(this.$.getOrganisationAccountTransactions);
 			}
 		}
