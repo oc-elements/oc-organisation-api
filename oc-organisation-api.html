@@ -9,6 +9,7 @@
         <iron-ajax id="getOrganisation"></iron-ajax>
         <iron-ajax id="getOrganisationByCode"></iron-ajax>
         <iron-ajax id="getOrganisations"></iron-ajax>
+        <iron-ajax id="getAllOrganisations"></iron-ajax>
         <iron-ajax id="getOrganisationDetail"></iron-ajax>
         <iron-ajax id="getOrganisationByHeader"></iron-ajax>
         <iron-ajax id="getOrganisationTypes"></iron-ajax>
@@ -88,6 +89,15 @@
 				this.$.getOrganisations.url = this._generateUrl('organisations');
 				return this._generateRequest(this.$.getOrganisations);
 			}
+            /**
+             * Retrieve all conneced suppliers
+             *
+             * @return {Promise}
+             */
+            getAllOrganisations(organisationId) {
+                this.$.getAllOrganisations.url = this._generateUrl('organisations/'+ organisationId + '/connected/organisations');
+                return this._generateRequest(this.$.getAllOrganisations);
+            }
 
 			/**
 			 * Retrieve an organisation by code
