@@ -94,8 +94,8 @@
              *
              * @return {Promise}
              */
-            getAllOrganisations(organisationId) {
-                this.$.getAllOrganisations.url = this._generateUrl('organisations/'+ organisationId + '/connected/organisations');
+            getAllOrganisations(organisationId, page, pageSize) {
+                this.$.getAllOrganisations.url = this._generateUrl('organisations/'+ organisationId + '/connected/organisations/?page=' + page + '&pagesize=' + pageSize);
                 return this._generateRequest(this.$.getAllOrganisations);
             }
 
