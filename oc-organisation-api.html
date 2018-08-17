@@ -3,50 +3,51 @@
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 
 <dom-module id="oc-organisation-api">
-	<template>
-		<!-- ORGANISATION -->
-		<iron-ajax id="createOrganisation"></iron-ajax>
-		<iron-ajax id="getOrganisation"></iron-ajax>
-		<iron-ajax id="getOrganisationByCode"></iron-ajax>
-		<iron-ajax id="getOrganisations"></iron-ajax>
-		<iron-ajax id="getOrganisationDetail"></iron-ajax>
-		<iron-ajax id="getOrganisationByHeader"></iron-ajax>
-		<iron-ajax id="getOrganisationTypes"></iron-ajax>
-		<iron-ajax id="getOrganisationIndustries"></iron-ajax>
-		<iron-ajax id="updateOrganisation"></iron-ajax>
-		<iron-ajax id="uploadOrganisationImage"></iron-ajax>
-		<iron-ajax id="updateOrganisationDetails"></iron-ajax>
-		<iron-ajax id="updateOrganisationTypesIndustries"></iron-ajax>
-		<iron-ajax id="getOrganisationAccessToken"></iron-ajax>
-		<iron-ajax id="getOrganisationHours"></iron-ajax>
-		<iron-ajax id="updateOrganisationHours"></iron-ajax>
-		<iron-ajax id="getBankAccountDetails"></iron-ajax>
-		<iron-ajax id="updateBankAccountDetails"></iron-ajax>
-		<!-- ADDRESS -->
-		<iron-ajax id="getAddress"></iron-ajax>
-		<iron-ajax id="createAddress"></iron-ajax>
-		<iron-ajax id="updateAddress"></iron-ajax>
-		<!-- DELIVERY ADDRESS -->
-		<iron-ajax id="getDeliveryAddresses"></iron-ajax>
-		<iron-ajax id="getDeliveryAddress"></iron-ajax>
-		<iron-ajax id="updateDeliveryAddress"></iron-ajax>
-		<iron-ajax id="setDeliveryAddresses"></iron-ajax>
-		<!-- DELIVERY AREA -->
-		<iron-ajax id="createDeliveryArea"></iron-ajax>
-		<iron-ajax id="getDeliveryAreas"></iron-ajax>
-		<iron-ajax id="updateDeliveryArea"></iron-ajax>
-		<iron-ajax id="deleteDeliveryArea"></iron-ajax>
-		<iron-ajax id="getSettings"></iron-ajax>
-		<iron-ajax id="updateSettings"></iron-ajax>
-		<iron-ajax id="getOrganisationConnections"></iron-ajax>
-		<iron-ajax id="getOrganisationAccount"></iron-ajax>
-		<!-- SETTINGS -->
-		<iron-ajax id="getOrganisationSettings"></iron-ajax>
-		<iron-ajax id="updateOrganisationSettings"></iron-ajax>
-		<!-- TRANSACTIONS -->
-		<iron-ajax id="getAllOrganisationTransactions"></iron-ajax>
-		<iron-ajax id="getOrganisationAccountTransactions"></iron-ajax>
-	</template>
+    <template>
+        <!-- ORGANISATION -->
+        <iron-ajax id="createOrganisation"></iron-ajax>
+        <iron-ajax id="getOrganisation"></iron-ajax>
+        <iron-ajax id="getOrganisationByCode"></iron-ajax>
+        <iron-ajax id="getOrganisations"></iron-ajax>
+		<iron-ajax id="getAllOrganisations"></iron-ajax>
+        <iron-ajax id="getOrganisationDetail"></iron-ajax>
+        <iron-ajax id="getOrganisationByHeader"></iron-ajax>
+        <iron-ajax id="getOrganisationTypes"></iron-ajax>
+        <iron-ajax id="getOrganisationIndustries"></iron-ajax>
+        <iron-ajax id="updateOrganisation"></iron-ajax>
+        <iron-ajax id="uploadOrganisationImage"></iron-ajax>
+        <iron-ajax id="updateOrganisationDetails"></iron-ajax>
+        <iron-ajax id="updateOrganisationTypesIndustries"></iron-ajax>
+        <iron-ajax id="getOrganisationAccessToken"></iron-ajax>
+        <iron-ajax id="getOrganisationHours"></iron-ajax>
+        <iron-ajax id="updateOrganisationHours"></iron-ajax>
+        <iron-ajax id="getBankAccountDetails"></iron-ajax>
+        <iron-ajax id="updateBankAccountDetails"></iron-ajax>
+        <!-- ADDRESS -->
+        <iron-ajax id="getAddress"></iron-ajax>
+        <iron-ajax id="createAddress"></iron-ajax>
+        <iron-ajax id="updateAddress"></iron-ajax>
+        <!-- DELIVERY ADDRESS -->
+        <iron-ajax id="getDeliveryAddresses"></iron-ajax>
+        <iron-ajax id="getDeliveryAddress"></iron-ajax>
+        <iron-ajax id="updateDeliveryAddress"></iron-ajax>
+        <iron-ajax id="setDeliveryAddresses"></iron-ajax>
+        <!-- DELIVERY AREA -->
+        <iron-ajax id="createDeliveryArea"></iron-ajax>
+        <iron-ajax id="getDeliveryAreas"></iron-ajax>
+        <iron-ajax id="updateDeliveryArea"></iron-ajax>
+        <iron-ajax id="deleteDeliveryArea"></iron-ajax>
+        <iron-ajax id="getSettings"></iron-ajax>
+        <iron-ajax id="updateSettings"></iron-ajax>
+        <iron-ajax id="getOrganisationConnections"></iron-ajax>
+        <iron-ajax id="getOrganisationAccount"></iron-ajax>
+        <!-- SETTINGS -->
+        <iron-ajax id="getOrganisationSettings"></iron-ajax>
+        <iron-ajax id="updateOrganisationSettings"></iron-ajax>
+        <!-- TRANSACTIONS -->
+        <iron-ajax id="getAllOrganisationTransactions"></iron-ajax>
+        <iron-ajax id="getOrganisationAccountTransactions"></iron-ajax>
+    </template>
 
 	<script>
 		/**
@@ -88,6 +89,15 @@
 				this.$.getOrganisations.url = this._generateUrl('organisations');
 				return this._generateRequest(this.$.getOrganisations);
 			}
+            /**
+             * Retrieve all conneced suppliers
+             *
+             * @return {Promise}
+             */
+            getAllOrganisations(organisationId, page, pageSize) {
+                this.$.getAllOrganisations.url = this._generateUrl('organisations/'+ organisationId + '/connected/organisations/?page=' + page + '&pagesize=' + pageSize);
+                return this._generateRequest(this.$.getAllOrganisations);
+            }
 
 			/**
 			 * Retrieve an organisation by code
