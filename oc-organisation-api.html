@@ -28,7 +28,6 @@
 		<iron-ajax id="getAddresses"></iron-ajax>
 		<iron-ajax id="createAddress"></iron-ajax>
 		<iron-ajax id="updateAddress"></iron-ajax>
-		<iron-ajax id="deleteAddress"></iron-ajax>
 		<!-- DELIVERY ADDRESS -->
 		<iron-ajax id="getDeliveryAddresses"></iron-ajax>
 		<iron-ajax id="getDeliveryAddress"></iron-ajax>
@@ -98,7 +97,7 @@
 			 * @return {Promise}
 			 */
 			getAllOrganisations(organisationId, page, pageSize) {
-				this.$.getAllOrganisations.url = this._generateUrl('organisations/' + organisationId + '/connected/organisations/?page=' + page + '&pagesize=' + pageSize + '&sort=nameAsc');
+				this.$.getAllOrganisations.url = this._generateUrl('organisations/' + organisationId + '/connected/organisations/?page=' + page + '&pagesize=' + pageSize+ '&sort=nameAsc');
 				return this._generateRequest(this.$.getAllOrganisations);
 			}
 
@@ -282,16 +281,15 @@
 				return this._generateRequest(this.$.updateBankAccountDetails);
 			}
 
-			/**
-			 * Get an organisation's address and GEO location
-			 *
-			 * @return {Promise}
-			 */
-			deleteAddress(locationId) {
-				this.$.deleteAddress.url = this._generateUrl('locations/' + locationId);
-				this.$.deleteAddress.method = 'DELETE';
-				return this._generateRequest(this.$.deleteAddress);
-			}
+			// /**
+			//  * Get an organisation's address and GEO location
+			//  *
+			//  * @return {Promise}
+			//  */
+			// getAddress(organisationId) {
+			// 	this.$.getAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+			// 	return this._generateRequest(this.$.getAddress);
+			// }
 			/**
 			 * Get an organisation's address and GEO location
 			 *
@@ -343,7 +341,7 @@
 			 * @return {Promise}
 			 */
 			updateAddress(addressId, address) {
-				this.$.updateAddress.url = this._generateUrl('locations/' + addressId);
+				this.$.updateAddress.url = this._generateUrl('organisations/address/' + addressId);
 				this.$.updateAddress.method = 'PUT';
 				this.$.updateAddress.contentType = 'application/json';
 				this.$.updateAddress.body = address;
@@ -506,15 +504,15 @@
 
 				//Query parameters available
 				var array = [
-					{ 'type': type },
-					{ 'status': 'CONNECTED' },
-					{ 'showDisabled': false },
-					{ 'radius': radius },
-					{ 'lat': lat },
-					{ 'long': long },
-					{ 'industry': '' },
-					{ 'page': page },
-					{ 'pagesize': pagesize },
+					{'type': type},
+					{'status': 'CONNECTED'},
+					{'showDisabled': false},
+					{'radius': radius},
+					{'lat': lat},
+					{'long': long},
+					{'industry': ''},
+					{'page': page},
+					{'pagesize': pagesize},
 				];
 
 				var queryUrl = '';
