@@ -25,6 +25,7 @@
 		<iron-ajax id="updateBankAccountDetails"></iron-ajax>
 		<!-- ADDRESS -->
 		<iron-ajax id="getAddress"></iron-ajax>
+		<iron-ajax id="getAddresses"></iron-ajax>
 		<iron-ajax id="createAddress"></iron-ajax>
 		<iron-ajax id="updateAddress"></iron-ajax>
 		<!-- DELIVERY ADDRESS -->
@@ -280,23 +281,54 @@
 				return this._generateRequest(this.$.updateBankAccountDetails);
 			}
 
+			// /**
+			//  * Get an organisation's address and GEO location
+			//  *
+			//  * @return {Promise}
+			//  */
+			// getAddress(organisationId) {
+			// 	this.$.getAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+			// 	return this._generateRequest(this.$.getAddress);
+			// }
 			/**
 			 * Get an organisation's address and GEO location
 			 *
 			 * @return {Promise}
 			 */
-			getAddress(organisationId) {
-				this.$.getAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+			getAddress(locationId) {
+				this.$.getAddress.url = this._generateUrl('locations/' + locationId);
 				return this._generateRequest(this.$.getAddress);
 			}
 
+			/**
+			 * Get an organisation's addresses and GEO location
+			 *
+			 * @return {Promise}
+			 */
+			getAddresses(organisationId) {
+				this.$.getAddresses.url = this._generateUrl('organisations/' + organisationId + '/locations');
+				return this._generateRequest(this.$.getAddresses);
+			}
+
+			// /**
+			//  * Create an address and GEO location for an organisation
+			//  *
+			//  * @return {Promise}
+			//  */
+			// createAddress(organisationId, address) {
+			// 	this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+			// 	this.$.createAddress.method = 'POST';
+			// 	this.$.createAddress.contentType = 'application/json';
+			// 	this.$.createAddress.body = address;
+			// 	return this._generateRequest(this.$.createAddress);
+			// }
 			/**
 			 * Create an address and GEO location for an organisation
 			 *
 			 * @return {Promise}
 			 */
 			createAddress(organisationId, address) {
-				this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+				this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/locations');
 				this.$.createAddress.method = 'POST';
 				this.$.createAddress.contentType = 'application/json';
 				this.$.createAddress.body = address;
