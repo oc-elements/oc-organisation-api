@@ -25,8 +25,10 @@
 		<iron-ajax id="updateBankAccountDetails"></iron-ajax>
 		<!-- ADDRESS -->
 		<iron-ajax id="getAddress"></iron-ajax>
+		<iron-ajax id="getAddresses"></iron-ajax>
 		<iron-ajax id="createAddress"></iron-ajax>
 		<iron-ajax id="updateAddress"></iron-ajax>
+		<iron-ajax id="deleteAddress"></iron-ajax>
 		<!-- DELIVERY ADDRESS -->
 		<iron-ajax id="getDeliveryAddresses"></iron-ajax>
 		<iron-ajax id="getDeliveryAddress"></iron-ajax>
@@ -96,7 +98,7 @@
 			 * @return {Promise}
 			 */
 			getAllOrganisations(organisationId, page, pageSize) {
-				this.$.getAllOrganisations.url = this._generateUrl('organisations/' + organisationId + '/connected/organisations/?page=' + page + '&pagesize=' + pageSize+ '&sort=nameAsc');
+				this.$.getAllOrganisations.url = this._generateUrl('organisations/' + organisationId + '/connected/organisations/?page=' + page + '&pagesize=' + pageSize + '&sort=nameAsc');
 				return this._generateRequest(this.$.getAllOrganisations);
 			}
 
@@ -285,18 +287,50 @@
 			 *
 			 * @return {Promise}
 			 */
-			getAddress(organisationId) {
-				this.$.getAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+			deleteAddress(locationId) {
+				this.$.deleteAddress.url = this._generateUrl('locations/' + locationId);
+				this.$.deleteAddress.method = 'DELETE';
+				return this._generateRequest(this.$.deleteAddress);
+			}
+			/**
+			 * Get an organisation's address and GEO location
+			 *
+			 * @return {Promise}
+			 */
+			getAddress(locationId) {
+				this.$.getAddress.url = this._generateUrl('locations/' + locationId);
 				return this._generateRequest(this.$.getAddress);
 			}
 
+			/**
+			 * Get an organisation's addresses and GEO location
+			 *
+			 * @return {Promise}
+			 */
+			getAddresses(organisationId) {
+				this.$.getAddresses.url = this._generateUrl('organisations/' + organisationId + '/locations');
+				return this._generateRequest(this.$.getAddresses);
+			}
+
+			// /**
+			//  * Create an address and GEO location for an organisation
+			//  *
+			//  * @return {Promise}
+			//  */
+			// createAddress(organisationId, address) {
+			// 	this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+			// 	this.$.createAddress.method = 'POST';
+			// 	this.$.createAddress.contentType = 'application/json';
+			// 	this.$.createAddress.body = address;
+			// 	return this._generateRequest(this.$.createAddress);
+			// }
 			/**
 			 * Create an address and GEO location for an organisation
 			 *
 			 * @return {Promise}
 			 */
 			createAddress(organisationId, address) {
-				this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
+				this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/locations');
 				this.$.createAddress.method = 'POST';
 				this.$.createAddress.contentType = 'application/json';
 				this.$.createAddress.body = address;
@@ -309,7 +343,7 @@
 			 * @return {Promise}
 			 */
 			updateAddress(addressId, address) {
-				this.$.updateAddress.url = this._generateUrl('organisations/address/' + addressId);
+				this.$.updateAddress.url = this._generateUrl('locations/' + addressId);
 				this.$.updateAddress.method = 'PUT';
 				this.$.updateAddress.contentType = 'application/json';
 				this.$.updateAddress.body = address;
@@ -472,15 +506,15 @@
 
 				//Query parameters available
 				var array = [
-					{'type': type},
-					{'status': 'CONNECTED'},
-					{'showDisabled': false},
-					{'radius': radius},
-					{'lat': lat},
-					{'long': long},
-					{'industry': ''},
-					{'page': page},
-					{'pagesize': pagesize},
+					{ 'type': type },
+					{ 'status': 'CONNECTED' },
+					{ 'showDisabled': false },
+					{ 'radius': radius },
+					{ 'lat': lat },
+					{ 'long': long },
+					{ 'industry': '' },
+					{ 'page': page },
+					{ 'pagesize': pagesize },
 				];
 
 				var queryUrl = '';
