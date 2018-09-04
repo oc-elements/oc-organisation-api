@@ -26,6 +26,7 @@
 		<!-- ADDRESS -->
 		<iron-ajax id="getAddress"></iron-ajax>
 		<iron-ajax id="getAddresses"></iron-ajax>
+		<iron-ajax id="getFilteredAddresses"></iron-ajax>
 		<iron-ajax id="createAddress"></iron-ajax>
 		<iron-ajax id="updateAddress"></iron-ajax>
 		<iron-ajax id="deleteAddress"></iron-ajax>
@@ -312,18 +313,16 @@
 				return this._generateRequest(this.$.getAddresses);
 			}
 
-			// /**
-			//  * Create an address and GEO location for an organisation
-			//  *
-			//  * @return {Promise}
-			//  */
-			// createAddress(organisationId, address) {
-			// 	this.$.createAddress.url = this._generateUrl('organisations/' + organisationId + '/address');
-			// 	this.$.createAddress.method = 'POST';
-			// 	this.$.createAddress.contentType = 'application/json';
-			// 	this.$.createAddress.body = address;
-			// 	return this._generateRequest(this.$.createAddress);
-			// }
+			/**
+ 			* Get an organisation's addresses and GEO location
+ 			*
+ 			* @return {Promise}
+ 			*/
+			getFilteredAddresses(organisationId, filter) {
+				this.$.getFilteredAddresses.url = this._generateUrl('organisations/' + organisationId + '/locations?' + filter);
+				return this._generateRequest(this.$.getFilteredAddresses);
+			}
+
 			/**
 			 * Create an address and GEO location for an organisation
 			 *
