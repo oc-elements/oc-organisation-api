@@ -550,8 +550,9 @@
 			 * /organisations/orgId/transactions
 			 * @return {Promise}
 			 */
-			getAllOrganisationTransactions(organisationId) {
-				this.$.getAllOrganisationTransactions.url = this._generateUrl('organisations/' + organisationId + '/transactions');
+			getAllOrganisationTransactions(organisationId, orderId) {
+				const orderParam = orderId ? `?order_id=${orderId}` : "";
+				this.$.getAllOrganisationTransactions.url = this._generateUrl('organisations/' + organisationId + '/transactions/' + orderParam);
 				return this._generateRequest(this.$.getAllOrganisationTransactions);
 			}
 
