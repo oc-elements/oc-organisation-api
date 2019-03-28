@@ -23,6 +23,8 @@
 		<iron-ajax id="updateOrganisationHours"></iron-ajax>
 		<iron-ajax id="getBankAccountDetails"></iron-ajax>
 		<iron-ajax id="updateBankAccountDetails"></iron-ajax>
+		<iron-ajax id="getOrganisationContacts"></iron-ajax>
+		<iron-ajax id="addOrganisationContact"></iron-ajax>
 		<!-- ADDRESS -->
 		<iron-ajax id="getAddress"></iron-ajax>
 		<iron-ajax id="getAddresses"></iron-ajax>
@@ -126,6 +128,19 @@
 				return this._generateRequest(this.$.getOrganisation, marketplace);
 			}
 
+
+			getOrganisationContacts(organisationId) {
+				this.$.getOrganisationContacts.url = this._generateUrl('organisations/' + organisationId + '/contact');
+				return this._generateRequest(this.$.getOrganisationContacts);
+			}
+
+			addOrganisationContact(organisationId, code) {
+				this.$.addOrganisationContact.url = this._generateUrl('organisations/' + organisationId + '/contact/code/' + code);
+				this.$.addOrganisationContact.method = 'PUT';
+				this.$.addOrganisationContact.contentType = 'application/json';
+				this.$.addOrganisationContact.body = code;
+				return this._generateRequest(this.$.addOrganisationContact);
+			}
 
 			/**
 			 * Retrieve an organisation's detail which include contact person and address
@@ -314,10 +329,10 @@
 			}
 
 			/**
- 			* Get an organisation's addresses and GEO location
- 			*
- 			* @return {Promise}
- 			*/
+			 * Get an organisation's addresses and GEO location
+			 *
+			 * @return {Promise}
+			 */
 			getFilteredAddresses(organisationId, filter) {
 				this.$.getFilteredAddresses.url = this._generateUrl('organisations/' + organisationId + '/locations?' + filter);
 				return this._generateRequest(this.$.getFilteredAddresses);
