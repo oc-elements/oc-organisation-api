@@ -29,9 +29,13 @@
 		<iron-ajax id="getAddress"></iron-ajax>
 		<iron-ajax id="getAddresses"></iron-ajax>
 		<iron-ajax id="getFilteredAddresses"></iron-ajax>
+		<iron-ajax id="getCustomerAddresses"></iron-ajax>
 		<iron-ajax id="createAddress"></iron-ajax>
+		<iron-ajax id="createCustomerAddress"></iron-ajax>
 		<iron-ajax id="updateAddress"></iron-ajax>
+		<iron-ajax id="updateCustomerAddress"></iron-ajax>
 		<iron-ajax id="deleteAddress"></iron-ajax>
+		<iron-ajax id="deleteCustomerAddress"></iron-ajax>
 		<!-- DELIVERY ADDRESS -->
 		<iron-ajax id="getDeliveryAddresses"></iron-ajax>
 		<iron-ajax id="getDeliveryAddress"></iron-ajax>
@@ -308,6 +312,17 @@
 				this.$.deleteAddress.method = 'DELETE';
 				return this._generateRequest(this.$.deleteAddress);
 			}
+
+			/**
+			 * Delete a customer address
+			 *
+			 * @return {Promise}
+			 */
+			 deleteCustomerAddress(customerID) {
+				this.$.deleteCustomerAddress.url = this._generateUrl('customers/' + customerID);
+				this.$.deleteCustomerAddress.method = 'DELETE';
+				return this._generateRequest(this.$.deleteCustomerAddress);
+			}
 			/**
 			 * Get an organisation's address and GEO location
 			 *
@@ -317,6 +332,21 @@
 				this.$.getAddress.url = this._generateUrl('locations/' + locationId);
 				return this._generateRequest(this.$.getAddress);
 			}
+
+			/**
+			 * Get an organisation's customers addresses
+			 *this.$.addCustomer.url =  this._generateUrl('organisations/' + organisationId + '/customers');
+				this.$.addCustomer.method = "POST";
+				this.$.addCustomer.body = body;
+				this.
+			 * @return {Promise}
+			 */
+			 getCustomerAddresses(organisationId) {
+				this.$.getCustomerAddresses.url = this._generateUrl('organisations/' + organisationId + '/customers');
+				return this._generateRequest(this.$.getCustomerAddresses);
+			}
+
+
 
 			/**
 			 * Get an organisation's addresses and GEO location
@@ -351,6 +381,20 @@
 				return this._generateRequest(this.$.createAddress);
 			}
 
+
+			/**
+			 * Create an address and GEO location for a customer
+			 *
+			 * @return {Promise}
+			 */
+			createCustomerAddress(organisationId, address) {
+				this.$.createCustomerAddress.url = this._generateUrl('organisations/' + organisationId + '/customers');
+				this.$.createCustomerAddress.method = 'POST';
+				this.$.createCustomerAddress.contentType = 'application/json';
+				this.$.createCustomerAddress.body = address;
+				return this._generateRequest(this.$.createCustomerAddress);
+			}
+
 			/**
 			 * Update an address and GEO location for an organisation
 			 *
@@ -362,6 +406,19 @@
 				this.$.updateAddress.contentType = 'application/json';
 				this.$.updateAddress.body = address;
 				return this._generateRequest(this.$.updateAddress);
+			}
+
+			/**
+			 * Update an address and GEO location for an organisation
+			 *
+			 * @return {Promise}
+			 */
+			 updateCustomerAddress(customerId, address) {
+				this.$.updateCustomerAddress.url = this._generateUrl('customers/' + customerId);
+				this.$.updateCustomerAddress.method = 'PUT';
+				this.$.updateCustomerAddress.contentType = 'application/json';
+				this.$.updateCustomerAddress.body = address;
+				return this._generateRequest(this.$.updateCustomerAddress);
 			}
 
 
