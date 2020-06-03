@@ -50,6 +50,8 @@
 		<iron-ajax id="updateSettings"></iron-ajax>
 		<iron-ajax id="getOrganisationConnections"></iron-ajax>
 		<iron-ajax id="getOrganisationAccount"></iron-ajax>
+		<iron-ajax id="getOrganisationDepositAccounts"></iron-ajax>
+		<iron-ajax id="getOrganisationWithdrawAccounts"></iron-ajax>
 		<!-- SETTINGS -->
 		<iron-ajax id="getOrganisationSettings"></iron-ajax>
 		<iron-ajax id="updateOrganisationSettings"></iron-ajax>
@@ -164,10 +166,17 @@
 			 * @return {Promise}
 			 */
 			getOrganisationAccount(organisationId) {
-				this.$.getOrganisation.url = this._generateUrl('organisations/' + organisationId + '/accounts');
-				return this._generateRequest(this.$.getOrganisation);
+				this.$.getOrganisationAccount.url = this._generateUrl('organisations/' + organisationId + '/accounts');
+				return this._generateRequest(this.$.getOrganisationAccount);
 			}
-
+			getOrganisationDepositAccounts(organisationId) {
+				this.$.getOrganisationDepositAccounts.url = this._generateUrl('organisations/' + organisationId + '/accounts?kind=deposit');
+				return this._generateRequest(this.$.getOrganisationDepositAccounts);
+			}
+			getOrganisationWithdrawAccounts(organisationId) {
+				this.$.getOrganisationWithdrawAccounts.url = this._generateUrl('organisations/' + organisationId + '/accounts?kind=withdraw');
+				return this._generateRequest(this.$.getOrganisationWithdrawAccounts);
+			}
 			/**
 			 * Retrieve an organisation from the authentication header
 			 *
