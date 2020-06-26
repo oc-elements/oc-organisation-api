@@ -58,6 +58,9 @@
 		<!-- TRANSACTIONS -->
 		<iron-ajax id="getAllOrganisationTransactions"></iron-ajax>
 		<iron-ajax id="getOrganisationAccountTransactions"></iron-ajax>
+		<!-- Suppliers -->
+		<iron-ajax id="getPossibleConnections"></iron-ajax>
+		<iron-ajax id="createBuyConnection"></iron-ajax>
 	</template>
 
 	<script>
@@ -78,6 +81,12 @@
 			static get behaviours() {
 			}
 
+
+			/** Pushy **/
+			registerPushyDevice(pushyAppId){
+				this.$.registerPushyDevice.url = "https://api.pushy.me/topics/subscribe?api_key=SECRET_API_KEY";
+				return this._generateRequest(this.$.registerPushyDevice);
+			}
 			/**
 			 * Create a new organisation
 			 *
@@ -650,6 +659,23 @@
 				this.$.getOrganisationAccountTransactions.url = this._generateUrl(`organisations/${organisationId}/transactions?account_id=${accountId}${optionalParams}`);
 				return this._generateRequest(this.$.getOrganisationAccountTransactions);
 			}
+
+			// Supplier calls
+			getPossibleConnections(organisationId, page, pageSize) {
+				this.$.getPossibleConnections.url = this._generateUrl('organisations/' + organisationId + '/connections/possible?page=' + page + '&pagesize=' + pageSize + '&types=suppliers');
+				return this._generateRequest(this.$.getPossibleConnections);
+			}
+
+			createBuyConnection(organisationId, toOrganisationId) {
+				this.$.createBuyConnection.url = this._generateUrl(`organisations/${organisationId}/buy`);
+				this.$.createBuyConnection.method = "PUT";
+				this.$.createBuyConnection.contentType = "application/json";
+				this.$.createBuyConnection.body = {
+					toOrganisationId: toOrganisationId,
+				};
+				return this._generateRequest(this.$.createBuyConnection);
+			}
+
 		}
 
 		window.customElements.define(OcOrganisationApi.is, OcOrganisationApi);
