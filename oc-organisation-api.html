@@ -668,7 +668,7 @@
 			}
 
 			getPossibleBuyConnections(organisationId, page, pageSize, collectionDistance) {
-				this.$.getPossibleBuyConnections.url = this._generateUrl('organisations/' + organisationId + '/connections/possible/buy?page=' + page + '&pagesize=' + pageSize + '&types=suppliers' + '&deliveryDistance=' + collectionDistance + '&collectionDistance=' + collectionDistance);
+				this.$.getPossibleBuyConnections.url = this._generateUrl('organisations/' + organisationId + '/connections/possible/buy?page=' + page + '&pagesize=' + pageSize + '&collectionDistance=' + collectionDistance);
 				return this._generateRequest(this.$.getPossibleBuyConnections);
 			}
 
