@@ -61,6 +61,7 @@
 		<!-- Suppliers -->
 		<iron-ajax id="getPossibleConnections"></iron-ajax>
 		<iron-ajax id="getPossibleBuyConnections"></iron-ajax>
+		<iron-ajax id="searchPossibleSupplier"></iron-ajax>
 		<iron-ajax id="createBuyConnection"></iron-ajax>
 	</template>
 
@@ -670,6 +671,11 @@
 			getPossibleBuyConnections(organisationId, page, pageSize, collectionDistance) {
 				this.$.getPossibleBuyConnections.url = this._generateUrl('organisations/' + organisationId + '/connections/possible/buy?page=' + page + '&pagesize=' + pageSize + '&collectionDistance=' + collectionDistance);
 				return this._generateRequest(this.$.getPossibleBuyConnections);
+			}
+
+			searchPossibleSupplier (organisationId, searchTerm) {
+				this.$.searchPossibleSupplier.url = this._generateUrl('organisations/' + organisationId + '/connections/possible/buy?collectionDistance=50&search=' + searchTerm + '&sort=primaryDistanceAsc');
+				return this._generateRequest(this.$.searchPossibleSupplier);
 			}
 
 			createBuyConnection(organisationId, toOrganisationId) {
