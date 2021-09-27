@@ -36,6 +36,7 @@
 		<iron-ajax id="updateCustomerAddress"></iron-ajax>
 		<iron-ajax id="deleteAddress"></iron-ajax>
 		<iron-ajax id="deleteCustomerAddress"></iron-ajax>
+		<iron-ajax id="getProvinces"></iron-ajax>
 		<!-- DELIVERY ADDRESS -->
 		<iron-ajax id="getDeliveryAddresses"></iron-ajax>
 		<iron-ajax id="getDeliveryAddress"></iron-ajax>
@@ -676,6 +677,11 @@
 			searchPossibleSupplier (organisationId, searchTerm) {
 				this.$.searchPossibleSupplier.url = this._generateUrl('organisations/' + organisationId + '/connections/possible/buy?collectionDistance=50&search=' + searchTerm + '&sort=primaryDistanceAsc');
 				return this._generateRequest(this.$.searchPossibleSupplier);
+			}
+
+			getProvinces() {
+				this.$.getProvinces.url = this._generateUrl('locations/province');
+				return this._generateRequest(this.$.getProvinces);
 			}
 
 			createBuyConnection(organisationId, toOrganisationId) {
