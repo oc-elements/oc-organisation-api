@@ -64,6 +64,11 @@
 		<iron-ajax id="getPossibleBuyConnections"></iron-ajax>
 		<iron-ajax id="searchPossibleSupplier"></iron-ajax>
 		<iron-ajax id="createBuyConnection"></iron-ajax>
+		<!-- Pushy -->
+		<iron-ajax id="registerPushyDevice"></iron-ajax>
+		<iron-ajax id="createPushyLink"></iron-ajax>
+		<iron-ajax id="checkPushySubscriptions"></iron-ajax>
+		
 	</template>
 
 	<script>
@@ -86,10 +91,29 @@
 
 
 			/** Pushy **/
-			registerPushyDevice(pushyAppId){
-				this.$.registerPushyDevice.url = "https://api.pushy.me/topics/subscribe?api_key=SECRET_API_KEY";
-				return this._generateRequest(this.$.registerPushyDevice);
+
+			checkPushySubscriptions(orgId) {
+				this.$.checkPushySubscriptions.url = this._generateUrl('notifications/organisation/' + orgId + '/pushy');
+				this.$.checkPushySubscriptions.method = 'GET';
+				this.$.checkPushySubscriptions.contentType = 'application/json';
+				this.$.checkPushySubscriptions.body = [];
+				return this._generateRequest(this.$.checkPushySubscriptions);
 			}
+
+			 registerPushyDevice(orgId, deviceToken){
+				this.$.registerPushyDevice.url = this._generateUrl('notifications/organisation/' + orgId + '/pushy/device/' + localStorage.pushyToken);
+				this.$.registerPushyDevice.method = 'POST';
+				this.$.registerPushyDevice.contentType = 'application/json';
+				this.$.registerPushyDevice.body = [];
+				return this._generateRequest(this.$.registerPushyDevice);
+			 }
+			 createPushyLink (orgId) {
+				this.$.createPushyLink.url = this._generateUrl('notifications/organisation/' + orgId + '/pushy');
+				this.$.createPushyLink.method = 'POST';
+				this.$.createPushyLink.contentType = 'application/json';
+				this.$.createPushyLink.body = [];
+				return this._generateRequest(this.$.createPushyLink);
+			 }
 			/**
 			 * Create a new organisation
 			 *
